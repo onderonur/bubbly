@@ -1,0 +1,69 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.10.2",
+    "@material-ui/icons": "^4.9.1",
+    "@testing-library/jest-dom": "^5.11.0",
+    "@testing-library/react": "^10.4.3",
+    "@testing-library/user-event": "^12.0.11",
+    "@types/emoji-mart": "^3.0.2",
+    "@types/file-saver": "^2.0.1",
+    "@types/jest": "^26.0.3",
+    "@types/node": "^14.0.14",
+    "@types/react": "^16.9.41",
+    "@types/react-color": "^3.0.4",
+    "@types/react-copy-to-clipboard": "^4.3.0",
+    "@types/react-dom": "^16.9.8",
+    "@types/react-linkify": "^1.0.0",
+    "@types/react-router-dom": "^5.1.5",
+    "@types/socket.io-client": "^1.4.33",
+    "@types/styled-components": "^5.1.0",
+    "@types/yup": "^0.29.3",
+    "dayjs": "^1.8.28",
+    "emoji-mart": "^3.0.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "file-saver": "^2.0.2",
+    "formik": "^2.1.4",
+    "immer": "^7.0.5",
+    "nanoid": "^3.1.10",
+    "notistack": "^0.9.17",
+    "prettier": "^2.0.5",
+    "react": "^16.13.1",
+    "react-color": "^2.18.1",
+    "react-copy-to-clipboard": "^5.0.2",
+    "react-dom": "^16.13.1",
+    "react-linkify": "^1.0.0-alpha",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^3.4.1",
+    "react-scrollbars-custom": "^4.0.25",
+    "react-share": "^4.2.0",
+    "rimraf": "^3.0.2",
+    "socket.io-client": "^2.3.0",
+    "styled-components": "^5.1.1",
+    "typescript": "^3.9.5",
+    "yup": "^0.29.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint --fix --max-warnings 0 --ext .js,.jsx,.ts,.tsx,.json src/",
+    "clean": "rimraf build"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

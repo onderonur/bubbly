@@ -1,0 +1,23 @@
+{
+  "name": "bubbly",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build:api": "cd api && npm run build",
+    "build:client": "cd client &&  npm run build",
+    "build": "npm run build:api && npm run build:client",
+    "install:api": "cd api && npm install",
+    "install:client": "cd client && npm install",
+    "heroku-postbuild": "npm run install:api && npm run install:client && npm run build",
+    "start": "cd api && npm start",
+    "clean:api": "cd api && rimraf dist",
+    "clean:client": "cd client && rimraf build",
+    "clean": "npm run clean:api && npm run clean:client"
+  },
+  "keywords": [],
+  "author": "onderonur",
+  "license": "ISC",
+  "devDependencies": {
+    "rimraf": "^3.0.2"
+  }
+}
