@@ -1,5 +1,5 @@
 export function trimString(str: string) {
-  return str.trim().replace(/^\s+|\s+$/g, '');
+  return str.replace(/^\s+|\s+$/g, '');
 }
 
 type NullOrUndefined = null | undefined;

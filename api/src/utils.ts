@@ -119,7 +119,7 @@ export const handleUserLeavingTheRoom = (
 
 // https://stackoverflow.com/a/14572494/10876256
 export const trimSpaces = (str: string): string => {
-  return str.trim().replace(/^\s+|\s+$/g, '');
+  return str.replace(/^\s+|\s+$/g, '');
 };
 
 export const isImageFile = async (file: Buffer): Promise<boolean> => {
