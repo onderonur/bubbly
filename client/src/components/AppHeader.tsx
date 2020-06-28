@@ -32,8 +32,8 @@ const StyledAppLogo = styled(AppLogo)`
 `;
 
 const TitleLink = styled(Link)`
-  color: initial;
   text-decoration: none;
+  color: inherit;
 ` as typeof Link;
 
 const AppHeader = React.memo(function AppHeader() {
