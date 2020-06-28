@@ -5,6 +5,19 @@ Live demo deployed on Heroku is **[here](https://bubbly-chat.herokuapp.com/)**.
   <img src="/assets/home-page.png" alt="Bubbly Logo"/>
 </p>
 
+### Features
+* Creating chat rooms for real-time chat
+* JWT based anonymous authentication
+* Users can set their username and conversation bubble color
+* Sending images/gifs
+* Emoji picker
+* "User is typing" notifications
+* Dark theme
+* Automatically linkifying urls, emails etc
+* Invite/share buttons
+* Sound notification when the window is not focused
+* "Back to bottom" button to scroll down automatically
+
 ### Stack
 * API Framework: [Express](https://expressjs.com/)
 * Real-Time Engine: [Socket.IO](https://socket.io/)
