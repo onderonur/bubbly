@@ -41,3 +41,11 @@ To run it in development mode:
 #### `cd client`
 #### `npm install`
 #### `npm start` 
+
+### Production
+
+To create a production build ready to deploy, you need to set a `JWT_SECRET_KEY` in `api/.env` file first.  
+
+After that, run:
+#### `npm run build`
+#### `npm start`
