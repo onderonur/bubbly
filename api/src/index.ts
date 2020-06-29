@@ -17,6 +17,7 @@ import {
 } from './utils';
 import NOTIFICATIONS, { notify } from './notifications';
 import jwt from 'jsonwebtoken';
+import helmet from 'helmet';
 
 const { JWT_TOKEN_SECRET } = process.env;
 
@@ -26,6 +27,9 @@ if (!JWT_TOKEN_SECRET) {
 
 // https://socket.io/docs/server-initialization/#With-Express
 const app = express();
+
+app.use(helmet());
+
 const http = createServer(app);
 const io = socketIo(http);
 

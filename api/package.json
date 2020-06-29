@@ -17,6 +17,7 @@
   "devDependencies": {
     "@types/express": "^4.17.6",
     "@types/file-type": "^10.9.1",
+    "@types/helmet": "0.0.47",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/node": "^14.0.14",
     "@types/socket.io": "^2.1.8",
@@ -37,6 +38,7 @@
     "env-cmd": "^10.1.0",
     "express": "^4.17.1",
     "file-type": "^14.6.2",
+    "helmet": "^3.23.3",
     "jsonwebtoken": "^8.5.1",
     "nanoid": "^3.1.10",
     "socket.io": "^2.3.0"
