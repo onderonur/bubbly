@@ -155,27 +155,40 @@ io.on('connection', (socket) => {
   });
 
   socket.on('edit user', (roomId: string, input: SocketUser) => {
-    const user = appUsers.get(input.id);
-    if (user) {
-      const oldUsername = user.username;
-      const newUsername = input.username;
-      if (user.username !== input.username) {
-        notify({
-          socket,
-          roomId,
-          notification: NOTIFICATIONS.editedUsername(oldUsername, newUsername),
-        });
+    const editedUser = appUsers.get(input.id);
+    if (editedUser) {
+      const newUsername = trimSpaces(input.username);
+      if (newUsername) {
+        const oldUsername = editedUser.username;
+        if (newUsername && oldUsername !== newUsername) {
+          editedUser.username = newUsername;
+          notify({
+            socket,
+            roomId,
+            notification: NOTIFICATIONS.editedUsername(
+              oldUsername,
+              newUsername
+            ),
+          });
+        }
       }
 
-      if (user.color !== input.color) {
-        notify({
-          socket,
-          roomId,
-          notification: NOTIFICATIONS.editedColor(user.username, input.color),
-        });
+      const newColor = input.color;
+      if (newColor) {
+        const oldColor = editedUser.color;
+        if (oldColor !== newColor) {
+          editedUser.color = newColor;
+          notify({
+            socket,
+            roomId,
+            notification: NOTIFICATIONS.editedColor(
+              editedUser.username,
+              newColor
+            ),
+          });
+        }
       }
 
-      const editedUser = { ...user, ...input };
       // eslint-disable-next-line no-param-reassign
       socket.user = editedUser;
       appUsers.set(editedUser.id, editedUser);
