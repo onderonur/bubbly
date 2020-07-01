@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import socketIoClient from 'socket.io-client';
 import { getToken } from 'utils';
 
-const io = socketIoClient(process.env.REACT_APP_SOCKET_URL, {
+const io = socketIoClient('/', {
   query: { token: getToken() },
 });
 

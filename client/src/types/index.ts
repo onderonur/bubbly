@@ -13,7 +13,6 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       REACT_APP_TITLE: string;
-      REACT_APP_SOCKET_URL: string;
     }
   }
 }
