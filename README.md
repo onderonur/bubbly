@@ -17,6 +17,7 @@ Live demo deployed on Heroku is **[here](https://bubbly-chat.herokuapp.com/)**.
 * Invite/share buttons
 * Sound notification when the window is not focused
 * "Back to bottom" button to scroll down automatically
+* Joining conversations by using themed rooms
 
 ### Stack
 * API Framework: [Express](https://expressjs.com/)
