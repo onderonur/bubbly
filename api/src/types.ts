@@ -38,3 +38,8 @@ declare global {
 export interface JwtTokenPayload {
   id: ID;
 }
+
+export interface ThemedRoom {
+  title: string;
+  slug: string;
+}

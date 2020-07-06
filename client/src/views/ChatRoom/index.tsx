@@ -15,10 +15,10 @@ import RoomUsersProvider from './contexts/RoomUsersContext';
 import styled from 'styled-components';
 import CloseIcon from '@material-ui/icons/Close';
 import useIsMobile from 'hooks/useIsMobile';
-import OnlyOnMobile from 'components/OnlyOnMobile';
+import IsMobile from 'components/IsMobile';
 import { Bold } from 'components/Text';
 import { ChatRoomRouteParams } from 'components/Routes';
-import { useAppLayout } from 'components/AppLayout';
+import { useInviter } from 'contexts/InviterContext';
 
 const DRAWER_WIDTH = '100%';
 
@@ -31,7 +31,7 @@ const StyledDrawer = styled(Drawer)`
 const ChatRoomView = React.memo(function ChatRoomView() {
   const { roomId } = useParams<ChatRoomRouteParams>();
 
-  const { setCanInvite } = useAppLayout();
+  const { setCanInvite } = useInviter();
 
   useEffect(() => {
     setCanInvite(true);
@@ -64,7 +64,7 @@ const ChatRoomView = React.memo(function ChatRoomView() {
           </Grid>
         </Grid>
       </Box>
-      <OnlyOnMobile>
+      <IsMobile>
         <StyledDrawer open={isDrawerOpen}>
           <Box
             display="flex"
@@ -82,7 +82,7 @@ const ChatRoomView = React.memo(function ChatRoomView() {
           <Divider />
           <RoomUserList roomId={roomId} />
         </StyledDrawer>
-      </OnlyOnMobile>
+      </IsMobile>
     </RoomUsersProvider>
   );
 });
