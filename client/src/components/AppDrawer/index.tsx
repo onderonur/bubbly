@@ -9,20 +9,13 @@ import {
   Divider,
 } from '@material-ui/core';
 import styled from 'styled-components';
-import useSwr from 'swr';
 import RouterLink from 'components/RouterLink';
 import Loading from 'components/Loading';
 import useIsMobile from 'hooks/useIsMobile';
 import AppTitleWithMenuToggler from '../AppTitleWithMenuToggler';
 import { useLocation } from 'react-router-dom';
 import { useAppDrawer } from './contexts/AppDrawerContext';
-
-interface ThemedRoom {
-  title: string;
-  slug: string;
-}
-
-const fetcher = (url: string) => fetch(url).then((response) => response.json());
+import { useThemedRooms } from 'contexts/ThemedRoomsContext';
 
 const DRAWER_WIDTH = '240px';
 
@@ -34,7 +27,7 @@ const StyledDrawer = styled(Drawer)`
 `;
 
 const AppDrawer = React.memo(function AppDrawer() {
-  const { data } = useSwr<ThemedRoom[]>('/api/rooms/themed', fetcher);
+  const themedRooms = useThemedRooms();
 
   const isMobile = useIsMobile();
 
@@ -52,11 +45,11 @@ const AppDrawer = React.memo(function AppDrawer() {
         <AppTitleWithMenuToggler onClickMenuButton={toggleDrawer} />
       </Toolbar>
       <Divider />
-      <Loading loading={!data}>
+      <Loading loading={!themedRooms}>
         <List
           subheader={<ListSubheader disableSticky>Themed Rooms</ListSubheader>}
         >
-          {data?.map((room) => {
+          {themedRooms?.map((room) => {
             const to = `/${room.slug}`;
             return (
               <ListItem

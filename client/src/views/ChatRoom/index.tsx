@@ -52,8 +52,16 @@ const ChatRoomView = React.memo(function ChatRoomView() {
     <RoomUsersProvider roomId={roomId}>
       <Prompt when={true} message="Are you sure to leave this conversation?" />
       <Box flex={1} clone>
-        <Grid container spacing={2} component={Paper}>
-          <Grid item md={3}>
+        <Grid
+          container
+          spacing={2}
+          component={Paper}
+          // When we used "noWrap" for the title in "Conversation",
+          // it disrupts this layout for mobile view.
+          // So, "nowrap" is added here to fix that problem.
+          wrap="nowrap"
+        >
+          <Grid item xs={false} md={3}>
             <RoomUserList roomId={roomId} />
           </Grid>
           <Grid item xs md={9}>

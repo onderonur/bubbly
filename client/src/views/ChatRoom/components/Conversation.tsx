@@ -4,7 +4,7 @@ import { ChatMessage } from '../types';
 import ChatForm from './ChatForm';
 import { ID } from 'types';
 import MessageList from './MessageList';
-import { Box } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import TypingUsers from './TypingUsers';
 import { nanoid } from 'nanoid';
 import RoomUserCounter from './RoomUserCounter';
@@ -15,6 +15,9 @@ import ConversationHeader from './ConversationHeader';
 import ChatImagePreview from './ChatImagePreview';
 import useConversation from '../hooks/useConversation';
 import ChatFormik, { ChatFormikProps } from './ChatFormik';
+import Stack from 'components/Stack';
+import { Bold } from 'components/Text';
+import { useThemedRooms } from 'contexts/ThemedRoomsContext';
 
 interface ConversationProps {
   roomId: ID;
@@ -56,12 +59,22 @@ const Conversation = React.memo<ConversationProps>(function Conversation({
     [io, receiveMessage, roomId, setMessages, viewer]
   );
 
+  const themedRooms = useThemedRooms();
+  const foundThemedRoom = themedRooms?.find((room) => room.slug === roomId);
+
   return (
     <ChatFormik onSubmit={handleSubmit}>
       <Box flex={1} height="100%" display="flex" flexDirection="column">
         <Box flex={1} display="flex" flexDirection="column" position="relative">
           <ConversationHeader justifyContent="space-between">
-            <RoomUserCounter onClick={onClickRoomUserCounter} />
+            <Stack spacing={2} alignItems="center">
+              <RoomUserCounter onClick={onClickRoomUserCounter} />
+              {foundThemedRoom && (
+                <Typography variant="h6" color="textSecondary" noWrap>
+                  <Bold>{foundThemedRoom.title}</Bold>
+                </Typography>
+              )}
+            </Stack>
             <ImagePicker name="file" />
           </ConversationHeader>
           <MessageList messages={messages} />
