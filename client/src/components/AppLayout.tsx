@@ -3,8 +3,9 @@ import { Container } from '@material-ui/core';
 import AppHeader from './AppHeader';
 import styled from 'styled-components';
 import ToolbarOffset from './ToolbarOffset';
-import AppDrawer, { AppDrawerProvider } from './AppDrawer';
+import AppDrawer from './AppDrawer';
 import InviterProvider from 'contexts/InviterContext';
+import AppDrawerProvider from './AppDrawer/contexts/AppDrawerContext';
 
 const Root = styled.div`
   display: flex;

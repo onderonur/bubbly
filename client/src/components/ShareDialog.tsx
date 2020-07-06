@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import BaseDialog from 'components/BaseDialog';
-import BaseDialogTitle from 'components/BaseDialogTitle';
-import BaseDialogContent from 'components/BaseDialogContent';
+import BaseDialogTitle from 'components/BaseDialog/components/BaseDialogTitle';
+import BaseDialogContent from 'components/BaseDialog/components/BaseDialogContent';
 import ShareButtons from './ShareButtons';
 import {
   TextField,

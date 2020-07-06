@@ -10,8 +10,8 @@ import useSocketIo from 'contexts/SocketContext';
 import Stack from 'components/Stack';
 import BaseColorPicker from 'components/BaseColorPicker';
 import BaseDialog from 'components/BaseDialog';
-import BaseDialogTitle from 'components/BaseDialogTitle';
-import BaseDialogContent from 'components/BaseDialogContent';
+import BaseDialogTitle from 'components/BaseDialog/components/BaseDialogTitle';
+import BaseDialogContent from 'components/BaseDialog/components/BaseDialogContent';
 import SubmitButton from 'components/SubmitButton';
 
 interface RoomUserFormValues {

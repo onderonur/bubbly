@@ -4,8 +4,8 @@ import { IconButton } from '@material-ui/core';
 import { saveAs } from 'file-saver';
 import BaseImage from 'components/BaseImage';
 import BaseDialog from 'components/BaseDialog';
-import BaseDialogTitle from 'components/BaseDialogTitle';
-import BaseDialogContent from 'components/BaseDialogContent';
+import BaseDialogTitle from 'components/BaseDialog/components/BaseDialogTitle';
+import BaseDialogContent from 'components/BaseDialog/components/BaseDialogContent';
 
 interface FullScreenImageViewerProps {
   isOpen: boolean;

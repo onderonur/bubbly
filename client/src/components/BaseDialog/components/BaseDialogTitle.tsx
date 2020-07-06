@@ -7,10 +7,10 @@ import {
   IconButtonProps,
   Box,
 } from '@material-ui/core';
-import { useDialogContext } from './BaseDialog';
+import { useDialogContext } from '../contexts/BaseDialogContext';
 import CloseIcon from '@material-ui/icons/Close';
 import styled from 'styled-components';
-import Stack from './Stack';
+import Stack from '../../Stack';
 
 const StyledDialogTitle = styled(DialogTitle)`
   display: flex;

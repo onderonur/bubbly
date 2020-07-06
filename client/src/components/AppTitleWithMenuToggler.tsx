@@ -12,14 +12,14 @@ const TitleLink = styled(RouterLink)`
   color: inherit;
 ` as typeof RouterLink;
 
-type AppTitleWithMenuButtonProps = {
+type AppTitleWithMenuTogglerProps = {
   hideTextOnMobile?: boolean;
   asLink?: boolean;
   onClickMenuButton: VoidFunction;
 };
 
-const AppTitleWithMenuButton = React.memo<AppTitleWithMenuButtonProps>(
-  function AppTitleWithMenuButton({
+const AppTitleWithMenuToggler = React.memo<AppTitleWithMenuTogglerProps>(
+  function AppTitleWithMenuToggler({
     hideTextOnMobile,
     asLink,
     onClickMenuButton,
@@ -39,4 +39,4 @@ const AppTitleWithMenuButton = React.memo<AppTitleWithMenuButtonProps>(
   }
 );
 
-export default AppTitleWithMenuButton;
+export default AppTitleWithMenuToggler;

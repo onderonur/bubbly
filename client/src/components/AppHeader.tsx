@@ -21,8 +21,8 @@ import GitHubIcon from '@material-ui/icons/GitHub';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import IsMobile from './IsMobile';
 import { useInviter } from 'contexts/InviterContext';
-import AppTitleWithMenuButton from './AppTitleWithMenuButton';
-import { useAppDrawer } from './AppDrawer';
+import AppTitleWithMenuToggler from './AppTitleWithMenuToggler';
+import { useAppDrawer } from './AppDrawer/contexts/AppDrawerContext';
 
 const StyledAppBar = styled(AppBar)`
   /* To clip drawers under the header */
@@ -55,7 +55,7 @@ const AppHeader = React.memo(function AppHeader() {
     <>
       <StyledAppBar position="fixed" color="inherit" variant="outlined">
         <Toolbar>
-          <AppTitleWithMenuButton
+          <AppTitleWithMenuToggler
             hideTextOnMobile
             asLink
             onClickMenuButton={toggleDrawer}
