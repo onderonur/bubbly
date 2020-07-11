@@ -16,13 +16,14 @@ import AppTitleWithMenuToggler from '../AppTitleWithMenuToggler';
 import { useLocation } from 'react-router-dom';
 import { useAppDrawer } from './contexts/AppDrawerContext';
 import { useThemedRooms } from 'contexts/ThemedRoomsContext';
+import { routes } from 'utils';
 
-const DRAWER_WIDTH = '240px';
+const drawerWidth = '240px';
 
 const StyledDrawer = styled(Drawer)`
-  width: ${DRAWER_WIDTH};
+  width: ${drawerWidth};
   .MuiDrawer-paper {
-    width: ${DRAWER_WIDTH};
+    width: ${drawerWidth};
   }
 `;
 
@@ -50,7 +51,7 @@ const AppDrawer = React.memo(function AppDrawer() {
           subheader={<ListSubheader disableSticky>Themed Rooms</ListSubheader>}
         >
           {themedRooms?.map((room) => {
-            const to = `/${room.slug}`;
+            const to = routes.chatRoom.path({ roomId: room.slug });
             return (
               <ListItem
                 key={room.slug}

@@ -17,7 +17,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import Zoom from '@material-ui/core/Zoom';
 import usePrevious from 'hooks/usePrevious';
 
-const BOTTOM_SCROLL_THRESHOLD = 150;
+const bottomScrollThreshold = 150;
 
 const BackToBottomFab = styled(Fab)`
   position: absolute;
@@ -98,7 +98,7 @@ const MessageList = React.memo<MessageListProps>(function MessageList({
       const { scrollHeight, scrollTop, clientHeight } = scrollState;
       let diff = scrollHeight - (scrollTop + clientHeight);
       diff = Math.round(diff);
-      const threshold = BOTTOM_SCROLL_THRESHOLD;
+      const threshold = bottomScrollThreshold;
       setIsBackToBottomVisible(diff >= threshold);
     }) as never,
     []

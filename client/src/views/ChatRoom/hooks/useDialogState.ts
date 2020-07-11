@@ -1,19 +1,26 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 function useDialogState() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  const openDialog = useCallback(() => {
+    setIsOpen(true);
+  }, []);
+
+  const closeDialog = useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    closeDialog();
+  }, [closeDialog, location]);
+
   const result = useMemo(() => {
-    const openDialog = () => {
-      setIsOpen(true);
-    };
-
-    const closeDialog = () => {
-      setIsOpen(false);
-    };
-
     return { isOpen, openDialog, closeDialog };
-  }, [isOpen]);
+  }, [closeDialog, isOpen, openDialog]);
 
   return result;
 }

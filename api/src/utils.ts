@@ -1,9 +1,9 @@
 import { ID, SocketUser, Maybe } from './types';
 import FileType from 'file-type';
 import { nanoid } from 'nanoid';
-import NOTIFICATIONS, { notify } from './notifications';
+import notifications, { notify } from './notifications';
 
-export const IS_DEV = process.env.NODE_ENV === 'development';
+export const isDev = process.env.NODE_ENV === 'development';
 
 export const findUserBySocketId = (
   appUsers: Map<string, SocketUser>,
@@ -112,7 +112,7 @@ export const handleUserLeavingTheRoom = (
     notify({
       socket,
       roomId,
-      notification: NOTIFICATIONS.leftTheRoom(socketUser),
+      notification: notifications.leftTheRoom(socketUser),
     });
   }
 };

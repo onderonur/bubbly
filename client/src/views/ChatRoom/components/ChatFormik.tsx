@@ -4,9 +4,9 @@ import * as Yup from 'yup';
 import { trimString } from 'utils';
 import { ChatFormValues } from '../types';
 
-const INITIAL_VALUES: ChatFormValues = { body: '', file: null };
+const initialValues: ChatFormValues = { body: '', file: null };
 
-const VALIDATION_SCHEMA = Yup.object().shape<ChatFormValues>({
+const validationSchema = Yup.object().shape<ChatFormValues>({
   body: Yup.string()
     .label('Message')
     // A message body is required, when there is no file selected.
@@ -38,8 +38,8 @@ function ChatFormik({ children, onSubmit }: ChatFormikProps) {
 
   return (
     <Formik<ChatFormValues>
-      initialValues={INITIAL_VALUES}
-      validationSchema={VALIDATION_SCHEMA}
+      initialValues={initialValues}
+      validationSchema={validationSchema}
       validateOnMount
       onSubmit={handleSubmit}
     >

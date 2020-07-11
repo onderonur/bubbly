@@ -1,6 +1,6 @@
 import { SocketUser, ID } from './types';
 
-const NOTIFICATIONS = {
+const notifications = {
   joinedToRoom: (user: SocketUser): string =>
     `${user.username} has joined to the conversation.`,
   leftTheRoom: (user: SocketUser): string =>
@@ -21,4 +21,4 @@ export const notify = ({ socket, roomId, notification }: NotifyArgs): void => {
   socket.to(roomId).emit('notification', notification);
 };
 
-export default NOTIFICATIONS;
+export default notifications;

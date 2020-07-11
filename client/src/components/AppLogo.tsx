@@ -4,7 +4,7 @@ type AppLogoProps = React.ImgHTMLAttributes<HTMLImageElement> & {
   quality: 'original' | 'large' | 'medium';
 };
 
-const IMAGE_SUFFIXES = {
+const imageSuffixes = {
   original: 'original',
   large: '512',
   medium: '192',
@@ -17,7 +17,7 @@ const AppLogo = React.memo<AppLogoProps>(function AppLogo({
   return (
     <img
       {...rest}
-      src={`/bubbly-${IMAGE_SUFFIXES[quality]}.png`}
+      src={`/bubbly-${imageSuffixes[quality]}.png`}
       alt="Bubbly Logo"
     />
   );

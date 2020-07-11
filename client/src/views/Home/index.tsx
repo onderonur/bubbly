@@ -18,6 +18,7 @@ import AbsoluteFill from 'components/AbsoluteFill';
 import { Bold } from 'components/Text';
 import AppLogo from 'components/AppLogo';
 import useIsMobile from 'hooks/useIsMobile';
+import { routes } from 'utils';
 
 interface StyledAppLogoProps {
   $isMobile: boolean;
@@ -37,7 +38,7 @@ const HomeView = React.memo(function Home() {
   const createRoom = useCallback(() => {
     io?.emit('create room', (roomId: ID) => {
       success('Welcome to your chat room!');
-      history.push(`/${roomId}`);
+      history.push(routes.chatRoom.path({ roomId }));
     });
   }, [history, io, success]);
 

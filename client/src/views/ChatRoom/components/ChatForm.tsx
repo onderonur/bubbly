@@ -13,7 +13,7 @@ import { SubmitIconButton } from 'components/SubmitButton';
 import useWindowFocus from '../hooks/useWindowFocus';
 import { ChatFormValues } from 'views/ChatRoom/types';
 
-const ENTER_KEY_CODE = 13;
+const enterKeyCode = 13;
 
 export interface ChatFormProps {
   roomId: ID;
@@ -84,7 +84,7 @@ const ChatForm = React.memo<ChatFormProps>(function ChatForm({ roomId }) {
 
   const handleKeyPress = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.which === ENTER_KEY_CODE && !e.shiftKey) {
+      if (e.which === enterKeyCode && !e.shiftKey) {
         // To prevent the event to create a new line
         e.preventDefault();
         // Then we just submit the form

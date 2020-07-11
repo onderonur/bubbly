@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useParams, Prompt } from 'react-router-dom';
 import Conversation from './components/Conversation';
 import RoomUserList from './components/RoomUserList';
@@ -18,27 +18,17 @@ import useIsMobile from 'hooks/useIsMobile';
 import IsMobile from 'components/IsMobile';
 import { Bold } from 'components/Text';
 import { ChatRoomRouteParams } from 'components/Routes';
-import { useInviter } from 'contexts/InviterContext';
 
-const DRAWER_WIDTH = '100%';
+const drawerWidth = '100%';
 
 const StyledDrawer = styled(Drawer)`
   .MuiDrawer-paper {
-    width: ${DRAWER_WIDTH};
+    width: ${drawerWidth};
   }
 `;
 
 const ChatRoomView = React.memo(function ChatRoomView() {
   const { roomId } = useParams<ChatRoomRouteParams>();
-
-  const { setCanInvite } = useInviter();
-
-  useEffect(() => {
-    setCanInvite(true);
-    return () => {
-      setCanInvite(false);
-    };
-  }, [setCanInvite]);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 

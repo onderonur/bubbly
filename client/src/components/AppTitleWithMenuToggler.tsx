@@ -6,6 +6,7 @@ import IsMobile from './IsMobile';
 import AppTitle from './AppTitle';
 import MenuIcon from '@material-ui/icons/Menu';
 import RouterLink from './RouterLink';
+import { routes } from 'utils';
 
 const TitleLink = styled(RouterLink)`
   text-decoration: none;
@@ -33,7 +34,11 @@ const AppTitleWithMenuToggler = React.memo<AppTitleWithMenuTogglerProps>(
             <MenuIcon />
           </IconButton>
         </IsMobile>
-        {asLink ? <TitleLink to="/">{title}</TitleLink> : title}
+        {asLink ? (
+          <TitleLink to={routes.home.path()}>{title}</TitleLink>
+        ) : (
+          title
+        )}
       </Stack>
     );
   }

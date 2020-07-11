@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { ThemedRoom } from './types';
 
-const THEMED_ROOMS: ThemedRoom[] = [
+const themedRooms: ThemedRoom[] = [
   { title: 'Random Chat', slug: 'random-chat' },
   { title: 'Music', slug: 'music' },
   { title: 'Movies', slug: 'movies' },
@@ -16,7 +16,7 @@ const THEMED_ROOMS: ThemedRoom[] = [
 const router = Router();
 
 router.get('/rooms/themed', (req, res) => {
-  res.json(THEMED_ROOMS);
+  res.json(themedRooms);
 });
 
 export default router;

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   AppBar,
   Toolbar,
@@ -20,9 +20,10 @@ import ShareIcon from '@material-ui/icons/Share';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import IsMobile from './IsMobile';
-import { useInviter } from 'contexts/InviterContext';
 import AppTitleWithMenuToggler from './AppTitleWithMenuToggler';
 import { useAppDrawer } from './AppDrawer/contexts/AppDrawerContext';
+import { Route } from 'react-router-dom';
+import { routes } from 'utils';
 
 const StyledAppBar = styled(AppBar)`
   /* To clip drawers under the header */
@@ -41,14 +42,6 @@ const AppHeader = React.memo(function AppHeader() {
 
   const { isOpen, openDialog, closeDialog } = useDialogState();
 
-  const { canInvite } = useInviter();
-
-  useEffect(() => {
-    if (!canInvite) {
-      closeDialog();
-    }
-  }, [canInvite, closeDialog]);
-
   const { toggleDrawer } = useAppDrawer();
 
   return (
@@ -62,7 +55,7 @@ const AppHeader = React.memo(function AppHeader() {
           />
           <Box flex={1} />
           <Stack spacing={1} alignItems="center">
-            {canInvite && (
+            <Route path={routes.chatRoom.path()}>
               <IsMobile
                 fallback={
                   <Button
@@ -80,7 +73,9 @@ const AppHeader = React.memo(function AppHeader() {
                   <ShareIcon />
                 </IconButton>
               </IsMobile>
-            )}
+              <ShareDialog isOpen={isOpen} onClose={closeDialog} />
+            </Route>
+
             <IconButton
               href="https://twitter.com/onderonur_"
               target="_blank"
@@ -98,13 +93,14 @@ const AppHeader = React.memo(function AppHeader() {
             <IconButton onClick={toggleTheme}>
               {isDarkTheme ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
-            <IconButton onClick={toggleVolume}>
-              {volume ? <VolumeUpIcon /> : <VolumeOffIcon />}
-            </IconButton>
+            <Route path={routes.chatRoom.path()}>
+              <IconButton onClick={toggleVolume}>
+                {volume ? <VolumeUpIcon /> : <VolumeOffIcon />}
+              </IconButton>
+            </Route>
           </Stack>
         </Toolbar>
       </StyledAppBar>
-      <ShareDialog isOpen={isOpen} onClose={closeDialog} />
     </>
   );
 });

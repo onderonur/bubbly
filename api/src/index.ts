@@ -6,7 +6,7 @@ import { nanoid } from 'nanoid';
 import path from 'path';
 import { ID, SocketUser, ChatMessage, Maybe, JwtTokenPayload } from './types';
 import {
-  IS_DEV,
+  isDev,
   getRoomUsers,
   trimSpaces,
   isImageFile,
@@ -15,7 +15,7 @@ import {
   getSocketRoomIds,
   handleUserLeavingTheRoom,
 } from './utils';
-import NOTIFICATIONS, { notify } from './notifications';
+import notifications, { notify } from './notifications';
 import jwt from 'jsonwebtoken';
 import helmet from 'helmet';
 import router from './routes';
@@ -36,7 +36,7 @@ app.use('/api', router);
 const http = createServer(app);
 const io = socketIo(http);
 
-if (!IS_DEV) {
+if (!isDev) {
   const relativeBuildPath = '../../client/build';
   const buildPath = path.join(__dirname, relativeBuildPath);
   app.use(express.static(buildPath));
@@ -106,7 +106,7 @@ io.on('connection', (socket) => {
           notify({
             socket,
             roomId,
-            notification: NOTIFICATIONS.joinedToRoom(socket.user),
+            notification: notifications.joinedToRoom(socket.user),
           });
         }
       }
@@ -168,7 +168,7 @@ io.on('connection', (socket) => {
           notify({
             socket,
             roomId,
-            notification: NOTIFICATIONS.editedUsername(
+            notification: notifications.editedUsername(
               oldUsername,
               newUsername
             ),
@@ -184,7 +184,7 @@ io.on('connection', (socket) => {
           notify({
             socket,
             roomId,
-            notification: NOTIFICATIONS.editedColor(
+            notification: notifications.editedColor(
               editedUser.username,
               newColor
             ),
@@ -220,9 +220,9 @@ io.on('connection', (socket) => {
   });
 });
 
-const PORT = process.env.PORT || 8080;
+const port = process.env.PORT || 8080;
 
-http.listen(PORT, () => {
+http.listen(port, () => {
   // eslint-disable-next-line no-console
-  console.log(`Listening on http://localhost:${PORT}`);
+  console.log(`Listening on http://localhost:${port}`);
 });

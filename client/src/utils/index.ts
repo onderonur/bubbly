@@ -1,3 +1,5 @@
+import { ID } from 'types';
+
 export function trimString(str: string) {
   return str.replace(/^\s+|\s+$/g, '');
 }
@@ -26,13 +28,23 @@ export function isOfType<T>(obj: any, keys: (keyof T)[]): obj is T {
   return keys.every((key) => objKeys.includes(key as string));
 }
 
-const TOKEN_KEY = 'token';
+const tokenKey = 'token';
 
 export function storeToken(token: string) {
-  localStorage.setItem(TOKEN_KEY, token);
+  localStorage.setItem(tokenKey, token);
 }
 
 export function getToken() {
-  const token = localStorage.getItem(TOKEN_KEY);
+  const token = localStorage.getItem(tokenKey);
   return token;
 }
+
+export const routes = {
+  home: {
+    path: () => '/',
+  },
+  chatRoom: {
+    path: (params: { roomId?: ID } = { roomId: ':roomId' }) =>
+      `/${params.roomId}`,
+  },
+};

@@ -4,10 +4,10 @@ import {
   PaletteType,
 } from '@material-ui/core';
 
-const VALID_THEME_TYPES: PaletteType[] = ['light', 'dark'];
+const validThemeTypes: PaletteType[] = ['light', 'dark'];
 
 function isValidThemeType(themeType: string): themeType is PaletteType {
-  return VALID_THEME_TYPES.includes(themeType as PaletteType);
+  return validThemeTypes.includes(themeType as PaletteType);
 }
 
 function getTheme(type: PaletteType) {

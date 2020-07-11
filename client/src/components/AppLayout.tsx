@@ -4,7 +4,6 @@ import AppHeader from './AppHeader';
 import styled from 'styled-components';
 import ToolbarOffset from './ToolbarOffset';
 import AppDrawer from './AppDrawer';
-import InviterProvider from 'contexts/InviterContext';
 import AppDrawerProvider from './AppDrawer/contexts/AppDrawerContext';
 
 const Root = styled.div`
@@ -24,18 +23,16 @@ type AppLayoutProps = React.PropsWithChildren<{}>;
 
 function AppLayout({ children }: AppLayoutProps) {
   return (
-    <InviterProvider>
-      <AppDrawerProvider>
-        <Root>
-          <AppHeader />
-          <AppDrawer />
-          <Container component={Content} maxWidth="lg">
-            <ToolbarOffset />
-            <>{children}</>
-          </Container>
-        </Root>
-      </AppDrawerProvider>
-    </InviterProvider>
+    <AppDrawerProvider>
+      <Root>
+        <AppHeader />
+        <AppDrawer />
+        <Container component={Content} maxWidth="lg">
+          <ToolbarOffset />
+          <>{children}</>
+        </Container>
+      </Root>
+    </AppDrawerProvider>
   );
 }
 

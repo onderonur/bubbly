@@ -7,9 +7,9 @@ import { Maybe } from 'types';
 import AbsoluteFill from './AbsoluteFill';
 import styled from 'styled-components';
 
-const ORIGINAL = 'original';
-const DEFAULT_ALT = 'Not Loaded';
-const DEFAULT_ASPECT_RATIO = getAspectRatioString(1, 1);
+const original = 'original';
+const defaultAlt = 'Not Loaded';
+const defaultAspectRatio = getAspectRatioString(1, 1);
 
 const StyledImage = styled.img<BaseImageProps>`
   width: 100%;
@@ -27,8 +27,8 @@ interface BaseImageProps {
 
 const BaseImage = React.memo<BaseImageProps>(function BaseImage({
   src,
-  alt = DEFAULT_ALT,
-  aspectRatio = ORIGINAL,
+  alt = defaultAlt,
+  aspectRatio = original,
   objectFit = 'cover',
   onClick,
 }) {
@@ -36,7 +36,7 @@ const BaseImage = React.memo<BaseImageProps>(function BaseImage({
   const [imgWidth, setImgWidth] = useState<Maybe<number>>();
   const [isImgLoaded, setIsImgLoaded] = useState(false);
 
-  const isOriginalAspectRatio = aspectRatio === ORIGINAL;
+  const isOriginalAspectRatio = aspectRatio === original;
 
   const handleLoad = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -88,7 +88,7 @@ const BaseImage = React.memo<BaseImageProps>(function BaseImage({
           isOriginalAspectRatio
             ? imgWidth && imgHeight
               ? getAspectRatioString(imgWidth, imgHeight)
-              : DEFAULT_ASPECT_RATIO
+              : defaultAspectRatio
             : aspectRatio
         }
       >

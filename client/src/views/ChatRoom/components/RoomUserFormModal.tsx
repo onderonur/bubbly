@@ -19,7 +19,7 @@ interface RoomUserFormValues {
   color: string;
 }
 
-const VALIDATION_SCHEMA = Yup.object().shape<RoomUserFormValues>({
+const validationSchema = Yup.object().shape<RoomUserFormValues>({
   username: Yup.string().label('Username').required().transform(trimString),
   color: Yup.string().label('Color').required(),
 });
@@ -57,7 +57,7 @@ const RoomUserFormModal = React.memo<RoomUserFormModalProps>(
         <BaseDialogTitle>User Settings</BaseDialogTitle>
         <Formik<RoomUserFormValues>
           initialValues={initialValues}
-          validationSchema={VALIDATION_SCHEMA}
+          validationSchema={validationSchema}
           validateOnMount
           onSubmit={handleSubmit}
         >

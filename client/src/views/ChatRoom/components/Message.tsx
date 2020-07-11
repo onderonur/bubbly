@@ -21,9 +21,9 @@ import { Bold } from 'components/Text';
 import { Maybe } from 'types';
 import useIsMobile from 'hooks/useIsMobile';
 
-const MAX_WIDTH = '70%';
-const MIN_WIDTH_WITH_IMAGE = '50%';
-const MIN_WIDTH_WITH_IMAGE_ON_MOBILE = MAX_WIDTH;
+const maxWidth = '70%';
+const minWidthWithImage = '50%';
+const minWidthWithImageOnMobile = maxWidth;
 
 interface RootStyleProps {
   $bgColor: NonNullable<CSSProperties['backgroundColor']>;
@@ -36,10 +36,10 @@ const Root = styled(Paper)<RootStyleProps>`
   min-width: ${({ $isMobile, $imageUrl }) =>
     $imageUrl
       ? $isMobile
-        ? MIN_WIDTH_WITH_IMAGE_ON_MOBILE
-        : MIN_WIDTH_WITH_IMAGE
+        ? minWidthWithImageOnMobile
+        : minWidthWithImage
       : undefined};
-  max-width: ${MAX_WIDTH};
+  max-width: ${maxWidth};
   color: ${({ theme, $bgColor }) => theme.palette.getContrastText($bgColor)};
   padding: ${({ theme }) => theme.spacing(1)}px;
 `;
