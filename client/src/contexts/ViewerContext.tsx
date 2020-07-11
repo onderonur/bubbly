@@ -6,7 +6,7 @@ import React, {
   PropsWithChildren,
 } from 'react';
 import { SocketUser, Maybe } from 'types';
-import useSocketIo, { useSocketListener } from './SocketContext';
+import useSocketIo, { useSocketListener } from './SocketIoContext';
 import { storeToken } from 'utils';
 
 const ViewerContext = React.createContext<Maybe<SocketUser>>(null);

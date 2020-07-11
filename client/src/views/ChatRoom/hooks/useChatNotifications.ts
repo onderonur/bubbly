@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { ChatNotification } from '../types';
-import { useSocketListener } from 'contexts/SocketContext';
+import { useSocketListener } from 'contexts/SocketIoContext';
 import produce from 'immer';
 import { nanoid } from 'nanoid';
 

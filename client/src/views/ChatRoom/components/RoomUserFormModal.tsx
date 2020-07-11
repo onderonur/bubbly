@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { trimString } from 'utils';
 import BaseTextField from 'components/BaseTextField';
 import BaseModalForm from 'components/BaseModalForm';
-import useSocketIo from 'contexts/SocketContext';
+import useSocketIo from 'contexts/SocketIoContext';
 import Stack from 'components/Stack';
 import BaseColorPicker from 'components/BaseColorPicker';
 import BaseDialog from 'components/BaseDialog';

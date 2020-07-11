@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState, useEffect } from 'react';
 import { useFormikContext } from 'formik';
 import BaseTextField from 'components/BaseTextField';
-import useSocketIo from 'contexts/SocketContext';
+import useSocketIo from 'contexts/SocketIoContext';
 import { ID } from 'types';
 import SendIcon from '@material-ui/icons/Send';
 import { useViewer } from 'contexts/ViewerContext';

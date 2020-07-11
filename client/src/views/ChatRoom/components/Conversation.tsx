@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import useSocketIo from 'contexts/SocketContext';
+import useSocketIo from 'contexts/SocketIoContext';
 import { ChatMessage } from '../types';
 import ChatForm from './ChatForm';
 import { ID } from 'types';

@@ -1,5 +1,5 @@
 import { useCallback, useState, useMemo } from 'react';
-import { useSocketListener } from 'contexts/SocketContext';
+import { useSocketListener } from 'contexts/SocketIoContext';
 import { ChatMessage } from '../types';
 import { SocketUser } from 'types';
 // https://material.io/design/sound/sound-resources.html#

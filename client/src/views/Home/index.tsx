@@ -8,7 +8,7 @@ import {
   Paper,
   useTheme,
 } from '@material-ui/core';
-import useSocketIo from '../../contexts/SocketContext';
+import useSocketIo from '../../contexts/SocketIoContext';
 import { ID } from 'types';
 import { useHistory } from 'react-router-dom';
 import { useSnack } from 'contexts/BaseSnackbarContext';

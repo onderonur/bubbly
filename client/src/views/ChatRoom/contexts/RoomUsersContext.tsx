@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useContext, useEffect } from 'react';
 import { SocketUser, ID } from 'types';
-import useSocketIo, { useSocketListener } from 'contexts/SocketContext';
+import useSocketIo, { useSocketListener } from 'contexts/SocketIoContext';
 import produce from 'immer';
 
 const RoomUsersContext = React.createContext<SocketUser[]>([]);

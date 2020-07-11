@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { SocketUser } from 'types';
-import { useSocketListener } from 'contexts/SocketContext';
+import { useSocketListener } from 'contexts/SocketIoContext';
 import { Box, Typography } from '@material-ui/core';
 import { getHelpingVerb } from 'utils';
 

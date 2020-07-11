@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { SocketIoProvider } from '../contexts/SocketContext';
+import { SocketIoProvider } from '../contexts/SocketIoContext';
 import Routes from './Routes';
 import AppLayout from './AppLayout';
 import ViewerProvider from 'contexts/ViewerContext';
