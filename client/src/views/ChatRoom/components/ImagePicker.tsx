@@ -46,11 +46,7 @@ const ImagePicker = React.memo<ImagePickerProps>(function ImagePicker({
         onChange={handleSelectFile}
       />
       <label htmlFor="icon-button-file">
-        <IconButton
-          aria-label="upload attachment"
-          component="span"
-          size="small"
-        >
+        <IconButton aria-label="upload attachment" component="span">
           <AttachFileIcon />
         </IconButton>
       </label>

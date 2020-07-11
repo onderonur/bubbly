@@ -27,9 +27,9 @@ const AppTitleWithMenuToggler = React.memo<AppTitleWithMenuTogglerProps>(
     const title = <AppTitle hideTextOnMobile={hideTextOnMobile} />;
 
     return (
-      <Stack spacing={1} alignItems="center">
+      <Stack spacing={0.5} alignItems="center">
         <IsMobile>
-          <IconButton size="small" onClick={onClickMenuButton}>
+          <IconButton onClick={onClickMenuButton}>
             <MenuIcon />
           </IconButton>
         </IsMobile>

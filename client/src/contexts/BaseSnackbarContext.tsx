@@ -36,7 +36,7 @@ function BaseSnackbarProvider({ children }: BaseSnackbarContext) {
     };
 
     return (
-      <IconButton color="inherit" size="small" onClick={onClickDismiss(key)}>
+      <IconButton color="inherit" onClick={onClickDismiss(key)}>
         <CloseIcon />
       </IconButton>
     );

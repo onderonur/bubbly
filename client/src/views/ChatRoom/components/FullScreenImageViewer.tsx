@@ -29,7 +29,7 @@ const FullScreenImageViewer = React.memo<FullScreenImageViewerProps>(
       <BaseDialog open={isOpen} fullScreen onClose={onClose}>
         <BaseDialogTitle
           extra={
-            <IconButton size="small" onClick={handleDownload}>
+            <IconButton onClick={handleDownload}>
               <GetAppIcon />
             </IconButton>
           }

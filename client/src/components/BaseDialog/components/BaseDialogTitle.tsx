@@ -16,6 +16,7 @@ const StyledDialogTitle = styled(DialogTitle)`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: ${({ theme }) => theme.spacing(1, 2)};
 `;
 
 const CloseIconButton = styled(IconButton)`
@@ -43,11 +44,7 @@ function BaseDialogTitle({ children, extra, ...rest }: BaseDialogTitleProps) {
         <Stack spacing={1}>
           <div>{extra}</div>
           {onClose && (
-            <CloseIconButton
-              aria-label="close"
-              size="small"
-              onClick={handleClose}
-            >
+            <CloseIconButton aria-label="close" onClick={handleClose}>
               <CloseIcon />
             </CloseIconButton>
           )}

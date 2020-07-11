@@ -23,11 +23,7 @@ const RoomUserCounter = React.memo<RoomUserCounter>(function RoomUserCounter({
     return content;
   }
 
-  return (
-    <IconButton size="small" onClick={onClick}>
-      {content}
-    </IconButton>
-  );
+  return <IconButton onClick={onClick}>{content}</IconButton>;
 });
 
 export default RoomUserCounter;

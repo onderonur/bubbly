@@ -38,7 +38,7 @@ const ChatImagePreview = React.memo<ChatImagePreviewProps>(
           bgcolor={theme.palette.background.paper}
         >
           <ConversationHeader justifyContent="flex-end">
-            <IconButton size="small" onClick={handleClose}>
+            <IconButton onClick={handleClose}>
               <CloseIcon />
             </IconButton>
           </ConversationHeader>
