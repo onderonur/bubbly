@@ -46,9 +46,10 @@ const RoomUserFormModal = React.memo<RoomUserFormModalProps>(
     >(
       (values, formikHelpers) => {
         const editedUser = { ...roomUser, ...values };
-        io?.emit('edit user', roomId, editedUser);
-        formikHelpers.setSubmitting(false);
-        onClose();
+        io?.emit('edit user', roomId, editedUser, () => {
+          formikHelpers.setSubmitting(false);
+          onClose();
+        });
       },
       [io, roomId, roomUser, onClose]
     );
@@ -62,7 +63,7 @@ const RoomUserFormModal = React.memo<RoomUserFormModalProps>(
           validateOnMount
           onSubmit={handleSubmit}
         >
-          {() => {
+          {({ isSubmitting }) => {
             return (
               <BaseModalForm>
                 <BaseDialogContent>
@@ -79,7 +80,7 @@ const RoomUserFormModal = React.memo<RoomUserFormModalProps>(
                 </BaseDialogContent>
                 <DialogActions>
                   <BaseButton onClick={onClose}>Cancel</BaseButton>
-                  <SubmitButton>Save</SubmitButton>
+                  <SubmitButton loading={isSubmitting}>Save</SubmitButton>
                 </DialogActions>
               </BaseModalForm>
             );

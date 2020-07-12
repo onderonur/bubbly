@@ -157,7 +157,7 @@ io.on('connection', (socket) => {
     socket.to(roomId).emit('finished typing', socket.user);
   });
 
-  socket.on('edit user', (roomId: string, input: SocketUser) => {
+  socket.on('edit user', (roomId: string, input: SocketUser, callback) => {
     const editedUser = appUsers.get(input.id);
     if (editedUser) {
       const newUsername = trimSpaces(input.username);
@@ -195,6 +195,7 @@ io.on('connection', (socket) => {
       // eslint-disable-next-line no-param-reassign
       socket.user = editedUser;
       appUsers.set(editedUser.id, editedUser);
+      callback(editedUser);
       io.to(roomId).emit('edit user', editedUser);
     }
   });
