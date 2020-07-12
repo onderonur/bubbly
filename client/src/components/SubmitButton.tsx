@@ -1,16 +1,12 @@
 import React, { useMemo } from 'react';
-import {
-  ButtonProps,
-  Button,
-  IconButtonProps,
-  IconButton,
-} from '@material-ui/core';
+import { IconButtonProps, IconButton } from '@material-ui/core';
 import { useFormikContext } from 'formik';
+import BaseButton, { BaseButtonProps } from 'components/BaseButton';
 
 function useSubmitButton() {
   const { isValid, isSubmitting } = useFormikContext();
   const submitButtonProps = useMemo<
-    Pick<ButtonProps, 'type' | 'disabled' | 'color'>
+    Pick<BaseButtonProps, 'type' | 'disabled' | 'color'>
   >(() => {
     return {
       type: 'submit',
@@ -28,11 +24,11 @@ export function SubmitIconButton(props: SubmitIconButtonProps) {
   return <IconButton {...props} {...submitButtonProps} />;
 }
 
-type SubmitButtonProps = Omit<ButtonProps, 'type'>;
+type SubmitButtonProps = Omit<BaseButtonProps, 'type'>;
 
 function SubmitButton(props: SubmitButtonProps) {
   const submitButtonProps = useSubmitButton();
-  return <Button {...props} {...submitButtonProps} />;
+  return <BaseButton {...props} {...submitButtonProps} />;
 }
 
 export default SubmitButton;

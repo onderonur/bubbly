@@ -1,8 +1,9 @@
 import React from 'react';
 import { CircularProgress, Box } from '@material-ui/core';
+import { Maybe } from 'types';
 
 type LoadingProps = React.PropsWithChildren<{
-  loading: boolean;
+  loading: Maybe<boolean>;
 }>;
 
 function Loading({ loading, children }: LoadingProps) {

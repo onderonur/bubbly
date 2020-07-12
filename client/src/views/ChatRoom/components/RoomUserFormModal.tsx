@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import { DialogActions, Button } from '@material-ui/core';
+import { DialogActions } from '@material-ui/core';
 import { SocketUser, ID } from 'types';
 import { Formik, FormikConfig } from 'formik';
 import * as Yup from 'yup';
@@ -13,6 +13,7 @@ import BaseDialog from 'components/BaseDialog';
 import BaseDialogTitle from 'components/BaseDialog/components/BaseDialogTitle';
 import BaseDialogContent from 'components/BaseDialog/components/BaseDialogContent';
 import SubmitButton from 'components/SubmitButton';
+import BaseButton from 'components/BaseButton';
 
 interface RoomUserFormValues {
   username: string;
@@ -77,7 +78,7 @@ const RoomUserFormModal = React.memo<RoomUserFormModalProps>(
                   </Stack>
                 </BaseDialogContent>
                 <DialogActions>
-                  <Button onClick={onClose}>Cancel</Button>
+                  <BaseButton onClick={onClose}>Cancel</BaseButton>
                   <SubmitButton>Save</SubmitButton>
                 </DialogActions>
               </BaseModalForm>

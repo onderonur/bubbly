@@ -1,6 +1,5 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
-  Button,
   Box,
   fade,
   Grid,
@@ -19,6 +18,7 @@ import { Bold } from 'components/Text';
 import AppLogo from 'components/AppLogo';
 import useIsMobile from 'hooks/useIsMobile';
 import { routes } from 'utils';
+import BaseButton from 'components/BaseButton';
 
 interface StyledAppLogoProps {
   $isMobile: boolean;
@@ -35,8 +35,12 @@ const HomeView = React.memo(function Home() {
   const history = useHistory();
   const { success } = useSnack();
 
+  const [loading, setLoading] = useState(false);
+
   const createRoom = useCallback(() => {
+    setLoading(true);
     io?.emit('create room', (roomId: ID) => {
+      setLoading(false);
       success('Welcome to your chat room!');
       history.push(routes.chatRoom.path({ roomId }));
     });
@@ -89,13 +93,14 @@ const HomeView = React.memo(function Home() {
                     <Typography variant="h2" gutterBottom>
                       <Bold>{process.env.REACT_APP_TITLE}</Bold>
                     </Typography>
-                    <Button
+                    <BaseButton
                       variant="contained"
                       color="primary"
+                      loading={loading}
                       onClick={createRoom}
                     >
                       Create Room
-                    </Button>
+                    </BaseButton>
                   </Box>
                 </Grid>
               </Grid>

@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  AppBar,
-  Toolbar,
-  Box,
-  IconButton,
-  useTheme,
-  Button,
-} from '@material-ui/core';
+import { AppBar, Toolbar, Box, IconButton, useTheme } from '@material-ui/core';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 import { useSettings } from 'contexts/SettingsContext';
@@ -24,6 +17,7 @@ import AppTitleWithMenuToggler from './AppTitleWithMenuToggler';
 import { useAppDrawer } from './AppDrawer/contexts/AppDrawerContext';
 import { Route } from 'react-router-dom';
 import { routes } from 'utils';
+import BaseButton from './BaseButton';
 
 const StyledAppBar = styled(AppBar)`
   /* To clip drawers under the header */
@@ -58,7 +52,7 @@ const AppHeader = React.memo(function AppHeader() {
             <Route path={routes.chatRoom.path()}>
               <IsMobile
                 fallback={
-                  <Button
+                  <BaseButton
                     size="small"
                     variant="contained"
                     color="primary"
@@ -66,7 +60,7 @@ const AppHeader = React.memo(function AppHeader() {
                     onClick={openDialog}
                   >
                     Invite Friends
-                  </Button>
+                  </BaseButton>
                 }
               >
                 <IconButton color="primary" onClick={openDialog}>
