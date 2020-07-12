@@ -8,7 +8,7 @@ import {
 import SettingsIcon from '@material-ui/icons/Settings';
 import { useViewer } from 'contexts/ViewerContext';
 import { SocketUser, ID } from 'types';
-import useDialogState from '../hooks/useDialogState';
+import useBaseDialog from '../../../components/BaseDialog/hooks/useBaseDialog';
 import RoomUserFormModal from './RoomUserFormModal';
 
 interface RoomUserListItemProps {
@@ -21,7 +21,7 @@ const RoomUserListItem = React.memo<RoomUserListItemProps>(
     const viewer = useViewer();
     const isViewer = viewer?.id === roomUser.id;
 
-    const { isOpen, openDialog, closeDialog } = useDialogState();
+    const { isOpen, openDialog, closeDialog } = useBaseDialog();
 
     return (
       <>

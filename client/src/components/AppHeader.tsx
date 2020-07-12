@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import ShareDialog from './ShareDialog';
-import useDialogState from 'views/ChatRoom/hooks/useDialogState';
+import useBaseDialog from 'components/BaseDialog/hooks/useBaseDialog';
 import Stack from './Stack';
 import ShareIcon from '@material-ui/icons/Share';
 import GitHubIcon from '@material-ui/icons/GitHub';
@@ -34,7 +34,7 @@ const AppHeader = React.memo(function AppHeader() {
 
   const isDarkTheme = theme.palette.type === 'dark';
 
-  const { isOpen, openDialog, closeDialog } = useDialogState();
+  const { isOpen, openDialog, closeDialog } = useBaseDialog();
 
   const { toggleDrawer } = useAppDrawer();
 
