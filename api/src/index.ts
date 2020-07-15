@@ -98,7 +98,7 @@ io.on('connection', (socket) => {
   socket.on('join room', (roomId, callback) => {
     socket.join(roomId, (err) => {
       if (!err) {
-        const roomUsers = getRoomUsers(io, appUsers, roomId);
+        const roomUsers = getRoomUsers(io, appUsers, roomId, socket);
         // Send current room users to sender
         callback(roomUsers);
         if (!isUserAlreadyInRoom(io, roomId, socket)) {

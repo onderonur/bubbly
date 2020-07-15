@@ -5,7 +5,7 @@ import notifications, { notify } from './notifications';
 
 export const isDev = process.env.NODE_ENV === 'development';
 
-export const findUserBySocketId = (
+export const getUserBySocketId = (
   appUsers: Map<string, SocketUser>,
   socketId: ID
 ): Maybe<SocketUser> => {
@@ -31,15 +31,24 @@ const getRoomSocketIds = (io: SocketIO.Server, roomId: ID): ID[] => {
 export const getRoomUsers = (
   io: SocketIO.Server,
   appUsers: Map<string, SocketUser>,
-  roomId: ID
+  roomId: ID,
+  socket: SocketIO.Socket
 ): SocketUser[] => {
   const roomSocketIds = getRoomSocketIds(io, roomId);
   let roomUsers = roomSocketIds
-    .map((socketId) => findUserBySocketId(appUsers, socketId))
+    .map((socketId) => getUserBySocketId(appUsers, socketId))
     // Filtering null values
     .filter((user) => !!user) as SocketUser[];
   // Removing duplicate users
   roomUsers = [...new Set(roomUsers)];
+  const socketUser = getUserBySocketId(appUsers, socket.id);
+  // Placing socketUser as the first in array
+  if (socketUser) {
+    roomUsers = [
+      socketUser,
+      ...roomUsers.filter((user) => user.id !== socketUser.id),
+    ];
+  }
   return roomUsers;
 };
 
