@@ -14,6 +14,7 @@ import {
   isUserAlreadyInRoom,
   getSocketRoomIds,
   handleUserLeavingTheRoom,
+  getUserRoomIds,
 } from './utils';
 import notifications, { notify } from './notifications';
 import jwt from 'jsonwebtoken';
@@ -157,7 +158,8 @@ io.on('connection', (socket) => {
     socket.to(roomId).emit('finished typing', socket.user);
   });
 
-  socket.on('edit user', (roomId: string, input: SocketUser, callback) => {
+  socket.on('edit user', (input: SocketUser, callback) => {
+    const userRoomIds = getUserRoomIds(io, socket);
     const editedUser = appUsers.get(input.id);
     if (editedUser) {
       const newUsername = trimSpaces(input.username);
@@ -165,13 +167,15 @@ io.on('connection', (socket) => {
         const oldUsername = editedUser.username;
         if (newUsername && oldUsername !== newUsername) {
           editedUser.username = newUsername;
-          notify({
-            socket,
-            roomId,
-            notification: notifications.editedUsername(
-              oldUsername,
-              newUsername
-            ),
+          userRoomIds.forEach((roomId) => {
+            notify({
+              socket,
+              roomId,
+              notification: notifications.editedUsername(
+                oldUsername,
+                newUsername
+              ),
+            });
           });
         }
       }
@@ -181,13 +185,15 @@ io.on('connection', (socket) => {
         const oldColor = editedUser.color;
         if (oldColor !== newColor) {
           editedUser.color = newColor;
-          notify({
-            socket,
-            roomId,
-            notification: notifications.editedColor(
-              editedUser.username,
-              newColor
-            ),
+          userRoomIds.forEach((roomId) => {
+            notify({
+              socket,
+              roomId,
+              notification: notifications.editedColor(
+                editedUser.username,
+                newColor
+              ),
+            });
           });
         }
       }
@@ -196,7 +202,9 @@ io.on('connection', (socket) => {
       socket.user = editedUser;
       appUsers.set(editedUser.id, editedUser);
       callback(editedUser);
-      io.to(roomId).emit('edit user', editedUser);
+      userRoomIds.forEach((roomId) => {
+        io.to(roomId).emit('edit user', editedUser);
+      });
     }
   });
 

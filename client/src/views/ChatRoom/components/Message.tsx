@@ -10,7 +10,6 @@ import {
   useTheme,
 } from '@material-ui/core';
 import { useViewer } from 'contexts/ViewerContext';
-import dayjs from 'dayjs';
 import Stack from 'components/Stack';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import DoneIcon from '@material-ui/icons/Done';
@@ -20,6 +19,7 @@ import Linkify from 'react-linkify';
 import { Bold } from 'components/Text';
 import { Maybe } from 'types';
 import useIsMobile from 'hooks/useIsMobile';
+import { dateTimeFormats, formatDateTime } from 'utils';
 
 const maxWidth = '70%';
 const minWidthWithImage = '50%';
@@ -132,9 +132,11 @@ const Message = React.memo<MessageProps>(function Message({ message }) {
         justifyContent="flex-end"
         alignItems="flex-end"
       >
-        <Tooltip title={dayjs(message.timestamp).format('DD/MM/YYYY HH:mm')}>
+        <Tooltip
+          title={formatDateTime(message.timestamp, dateTimeFormats.dateTime)}
+        >
           <Typography variant="caption">
-            {dayjs(message.timestamp).format('HH:mm')}
+            {formatDateTime(message.timestamp, dateTimeFormats.time)}
           </Typography>
         </Tooltip>
         {isOwnMessage && <StatusIcon fontSize="small" />}

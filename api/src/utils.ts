@@ -71,6 +71,19 @@ export const getSocketRoomIds = (socket: SocketIO.Socket): ID[] => {
   return socketRoomIds;
 };
 
+export const getUserRoomIds = (
+  io: SocketIO.Server,
+  socket: SocketIO.Socket
+): ID[] => {
+  const { socketIds } = socket.user;
+  let roomIds = socketIds.flatMap((socketId) =>
+    Object.keys(io.sockets.adapter.sids[socketId])
+  );
+  // Removing duplicate values
+  roomIds = [...new Set(roomIds)];
+  return roomIds;
+};
+
 const didUserLeaveTheRoomCompletely = (
   io: SocketIO.Server,
   roomId: ID,

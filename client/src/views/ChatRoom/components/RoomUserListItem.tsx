@@ -25,7 +25,7 @@ const RoomUserListItem = React.memo<RoomUserListItemProps>(
 
     return (
       <>
-        <ListItem key={roomUser.id} divider>
+        <ListItem divider>
           <ListItemText
             primary={roomUser.username}
             primaryTypographyProps={{

@@ -1,20 +1,20 @@
 import React from 'react';
-import { ChatMessage, ChatNotification } from '../types';
+import { ChatMessage, ChatNotification, ChatItem } from '../types';
 import { Box } from '@material-ui/core';
 import Message from './Message';
 import { useViewer } from 'contexts/ViewerContext';
 import { isOfType } from 'utils';
-import NotifierMessage from './NotifierMessage';
+import ChatNotifier from './ChatNotifier';
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
 
-type MessageListItemWrapperProps = React.PropsWithChildren<{
+type ChatItemListItemContainerProps = React.PropsWithChildren<{
   justifyContent: CSSProperties['justifyContent'];
 }>;
 
-function MessageListItemWrapper({
+function ChatItemListItemContainer({
   justifyContent,
   children,
-}: MessageListItemWrapperProps) {
+}: ChatItemListItemContainerProps) {
   return (
     <Box
       paddingY={0.5}
@@ -27,14 +27,12 @@ function MessageListItemWrapper({
   );
 }
 
-export type ChatItem = ChatMessage | ChatNotification;
-
-interface MessageListItemProps {
+interface ChatItemListItemProps {
   listItem: ChatItem;
 }
 
-const MessageListItem = React.memo<MessageListItemProps>(
-  function MessageListItem({ listItem }) {
+const ChatItemListItem = React.memo<ChatItemListItemProps>(
+  function ChatItemListItem({ listItem }) {
     const viewer = useViewer();
 
     const isMessage = isOfType<ChatMessage>(listItem, ['author']);
@@ -43,22 +41,21 @@ const MessageListItem = React.memo<MessageListItemProps>(
       const message = listItem as ChatMessage;
       const isOwnMessage = message.author.id === viewer?.id;
       return (
-        <MessageListItemWrapper
-          key={listItem.id}
+        <ChatItemListItemContainer
           justifyContent={isOwnMessage ? 'flex-end' : 'flex-start'}
         >
           <Message message={message} />
-        </MessageListItemWrapper>
+        </ChatItemListItemContainer>
       );
     }
 
     const notification = listItem as ChatNotification;
     return (
-      <MessageListItemWrapper key={listItem.id} justifyContent="center">
-        <NotifierMessage notification={notification} />
-      </MessageListItemWrapper>
+      <ChatItemListItemContainer justifyContent="center">
+        <ChatNotifier notification={notification} />
+      </ChatItemListItemContainer>
     );
   }
 );
 
-export default MessageListItem;
+export default ChatItemListItem;

@@ -3,7 +3,7 @@ import { useTheme, Grow, IconButton, Box } from '@material-ui/core';
 import BaseImage from 'components/BaseImage';
 import AbsoluteFill from 'components/AbsoluteFill';
 import CloseIcon from '@material-ui/icons/Close';
-import ConversationHeader from './ConversationHeader';
+import ChatHeader from './ChatHeader';
 import { useFormikContext } from 'formik';
 import { ChatFormValues } from '../types';
 
@@ -37,11 +37,11 @@ const ChatImagePreview = React.memo<ChatImagePreviewProps>(
           zIndex={theme.zIndex.modal}
           bgcolor={theme.palette.background.paper}
         >
-          <ConversationHeader justifyContent="flex-end">
+          <ChatHeader justifyContent="flex-end">
             <IconButton onClick={handleClose}>
               <CloseIcon />
             </IconButton>
-          </ConversationHeader>
+          </ChatHeader>
           {imageUrl && (
             <Box flex={1} height={0}>
               <BaseImage

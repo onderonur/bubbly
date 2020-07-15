@@ -10,12 +10,14 @@ import { Box } from '@material-ui/core';
 import ScrollBar, { ScrollbarProps } from 'react-scrollbars-custom';
 import styled from 'styled-components';
 import useChatNotifications from '../hooks/useChatNotifications';
-import MessageListItem from './MessageListItem';
+import ChatItemListItem from './ChatItemListItem';
 import { ScrollState } from 'react-scrollbars-custom/dist/types/types';
 import Fab from '@material-ui/core/Fab';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import Zoom from '@material-ui/core/Zoom';
 import usePrevious from 'hooks/usePrevious';
+import { ID } from 'types';
+import { useChatMessages } from '../contexts/ChatMessageContext';
 
 const bottomScrollThreshold = 150;
 
@@ -29,16 +31,17 @@ const StyledScrollBar = styled(ScrollBar)`
   background-color: ${({ theme }) => theme.palette.background.default};
 `;
 
-interface MessageListProps {
-  messages: ChatMessage[];
+interface ChatItemListProps {
+  roomId: ID;
 }
 
-const MessageList = React.memo<MessageListProps>(function MessageList({
-  messages,
+const ChatItemList = React.memo<ChatItemListProps>(function ChatItemList({
+  roomId,
 }) {
   const scrollBarRef = useRef<ScrollBar>(null);
 
-  const notifications = useChatNotifications();
+  const { messages } = useChatMessages();
+  const notifications = useChatNotifications(roomId);
 
   const fullList: (ChatMessage | ChatNotification)[] = useMemo(
     () =>
@@ -113,7 +116,7 @@ const MessageList = React.memo<MessageListProps>(function MessageList({
       <Box padding={1} clone>
         <ul>
           {fullList.map((listItem) => {
-            return <MessageListItem key={listItem.id} listItem={listItem} />;
+            return <ChatItemListItem key={listItem.id} listItem={listItem} />;
           })}
         </ul>
       </Box>
@@ -121,4 +124,4 @@ const MessageList = React.memo<MessageListProps>(function MessageList({
   );
 });
 
-export default MessageList;
+export default ChatItemList;

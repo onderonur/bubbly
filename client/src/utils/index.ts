@@ -1,4 +1,14 @@
 import { ID } from 'types';
+import dayjs from 'dayjs';
+
+export const dateTimeFormats = {
+  dateTime: 'DD/MM/YYYY HH:mm',
+  time: 'HH:mm',
+};
+
+export function formatDateTime(date: dayjs.ConfigType, format: string) {
+  return dayjs(date).format(format);
+}
 
 export function trimString(str: string) {
   return str.replace(/^\s+|\s+$/g, '');

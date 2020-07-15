@@ -46,12 +46,12 @@ const RoomUserFormModal = React.memo<RoomUserFormModalProps>(
     >(
       (values, formikHelpers) => {
         const editedUser = { ...roomUser, ...values };
-        io?.emit('edit user', roomId, editedUser, () => {
+        io?.emit('edit user', editedUser, () => {
           formikHelpers.setSubmitting(false);
           onClose();
         });
       },
-      [io, roomId, roomUser, onClose]
+      [io, roomUser, onClose]
     );
 
     return (

@@ -10,7 +10,7 @@ interface RoomUserCounter {
 const RoomUserCounter = React.memo<RoomUserCounter>(function RoomUserCounter({
   onClick,
 }) {
-  const roomUsers = useRoomUsers();
+  const { roomUsers } = useRoomUsers();
 
   const content = (
     <Typography component="span" color="primary" variant="body2">

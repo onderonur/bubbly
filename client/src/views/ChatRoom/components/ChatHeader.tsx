@@ -1,14 +1,11 @@
 import React from 'react';
 import { Box, BoxProps } from '@material-ui/core';
 
-type ConversationHeaderProps = React.PropsWithChildren<{
+type ChatHeaderProps = React.PropsWithChildren<{
   justifyContent: BoxProps['justifyContent'];
 }>;
 
-function ConversationHeader({
-  justifyContent,
-  children,
-}: ConversationHeaderProps) {
+function ChatHeader({ justifyContent, children }: ChatHeaderProps) {
   return (
     <Box display="flex" justifyContent={justifyContent} padding={0.5}>
       {children}
@@ -16,4 +13,4 @@ function ConversationHeader({
   );
 }
 
-export default ConversationHeader;
+export default ChatHeader;

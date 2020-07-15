@@ -13,7 +13,7 @@ interface RoomUserListProps {
 const RoomUserList = React.memo<RoomUserListProps>(function RoomUserList({
   roomId,
 }) {
-  const roomUsers = useRoomUsers();
+  const { roomUsers } = useRoomUsers();
   const viewer = useViewer();
 
   return (

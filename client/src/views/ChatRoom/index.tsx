@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useParams, Prompt } from 'react-router-dom';
-import Conversation from './components/Conversation';
+import Chat from './components/Chat';
 import RoomUserList from './components/RoomUserList';
 import {
   Grid,
@@ -18,6 +18,8 @@ import useIsMobile from 'hooks/useIsMobile';
 import IsMobile from 'components/IsMobile';
 import { Bold } from 'components/Text';
 import { ChatRoomRouteParams } from 'components/Routes';
+import useChatRoom from './hooks/useChatRoom';
+import ChatMessageProvider from './contexts/ChatMessageContext';
 
 const drawerWidth = '100%';
 
@@ -27,8 +29,10 @@ const StyledDrawer = styled(Drawer)`
   }
 `;
 
-const ChatRoomView = React.memo(function ChatRoomView() {
+const ChatRoomContent = React.memo(function ChatRoomContent() {
   const { roomId } = useParams<ChatRoomRouteParams>();
+
+  useChatRoom(roomId);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -39,14 +43,14 @@ const ChatRoomView = React.memo(function ChatRoomView() {
   const isMobile = useIsMobile();
 
   return (
-    <RoomUsersProvider roomId={roomId}>
+    <>
       <Prompt when={true} message="Are you sure to leave this conversation?" />
       <Box flex={1} clone>
         <Grid
           container
           spacing={2}
           component={Paper}
-          // When we used "noWrap" for the title in "Conversation",
+          // When we used "noWrap" for the title in "Chat",
           // it disrupts this layout for mobile view.
           // So, "nowrap" is added here to fix that problem.
           wrap="nowrap"
@@ -55,7 +59,7 @@ const ChatRoomView = React.memo(function ChatRoomView() {
             <RoomUserList roomId={roomId} />
           </Grid>
           <Grid item xs md={9}>
-            <Conversation
+            <Chat
               roomId={roomId}
               onClickRoomUserCounter={isMobile ? toggleDrawer : undefined}
             />
@@ -81,6 +85,18 @@ const ChatRoomView = React.memo(function ChatRoomView() {
           <RoomUserList roomId={roomId} />
         </StyledDrawer>
       </IsMobile>
+    </>
+  );
+});
+
+const ChatRoomView = React.memo(function ChatRoomView() {
+  const { roomId } = useParams<ChatRoomRouteParams>();
+
+  return (
+    <RoomUsersProvider roomId={roomId}>
+      <ChatMessageProvider roomId={roomId}>
+        <ChatRoomContent />
+      </ChatMessageProvider>
     </RoomUsersProvider>
   );
 });

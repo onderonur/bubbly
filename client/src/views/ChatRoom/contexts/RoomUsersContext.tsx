@@ -1,9 +1,22 @@
-import React, { useState, useCallback, useContext, useEffect } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useContext,
+  useMemo,
+  useEffect,
+} from 'react';
 import { SocketUser, ID } from 'types';
-import useSocketIo, { useSocketListener } from 'contexts/SocketIoContext';
+import { useSocketListener } from 'contexts/SocketIoContext';
 import produce from 'immer';
 
-const RoomUsersContext = React.createContext<SocketUser[]>([]);
+interface RoomUsersContextValue {
+  roomUsers: SocketUser[];
+  setRoomUsers: React.Dispatch<React.SetStateAction<SocketUser[]>>;
+}
+
+const RoomUsersContext = React.createContext<RoomUsersContextValue>(
+  {} as RoomUsersContextValue
+);
 
 export function useRoomUsers() {
   const roomUsers = useContext(RoomUsersContext);
@@ -16,6 +29,12 @@ type RoomUsersProviderProps = React.PropsWithChildren<{
 
 function RoomUsersProvider({ roomId, children }: RoomUsersProviderProps) {
   const [roomUsers, setRoomUsers] = useState<SocketUser[]>([]);
+
+  useEffect(() => {
+    return () => {
+      setRoomUsers([]);
+    };
+  }, [roomId]);
 
   const handleJoinedToRoom = useCallback((roomUser: SocketUser) => {
     setRoomUsers(
@@ -48,29 +67,13 @@ function RoomUsersProvider({ roomId, children }: RoomUsersProviderProps) {
 
   useSocketListener('edit user', handleEditUser);
 
-  const io = useSocketIo();
-
-  const joinRoom = useCallback(() => {
-    io?.emit('join room', roomId, (users: SocketUser[]) => {
-      setRoomUsers(users);
-    });
-  }, [io, roomId]);
-
-  useEffect(() => {
-    joinRoom();
-    return () => {
-      io?.emit('leave room', roomId);
-    };
-  }, [io, joinRoom, roomId]);
-
-  const handleReconnect = useCallback(() => {
-    joinRoom();
-  }, [joinRoom]);
-
-  useSocketListener('reconnect', handleReconnect);
+  const contextValue = useMemo<RoomUsersContextValue>(
+    () => ({ roomUsers, setRoomUsers }),
+    [roomUsers]
+  );
 
   return (
-    <RoomUsersContext.Provider value={roomUsers}>
+    <RoomUsersContext.Provider value={contextValue}>
       {children}
     </RoomUsersContext.Provider>
   );

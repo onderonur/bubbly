@@ -1,11 +1,18 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { ChatNotification } from '../types';
 import { useSocketListener } from 'contexts/SocketIoContext';
 import produce from 'immer';
 import { nanoid } from 'nanoid';
+import { ID } from 'types';
 
-function useChatNotifications() {
+function useChatNotifications(roomId: ID) {
   const [notifications, setNotifications] = useState<ChatNotification[]>([]);
+
+  useEffect(() => {
+    return () => {
+      setNotifications([]);
+    };
+  }, [roomId]);
 
   const handleNotification = useCallback((notification: string) => {
     setNotifications(

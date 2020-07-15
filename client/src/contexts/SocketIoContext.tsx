@@ -1,10 +1,7 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import socketIoClient from 'socket.io-client';
 import { getToken } from 'utils';
-
-const io = socketIoClient('/', {
-  query: { token: getToken() },
-});
+import { Maybe } from 'types';
 
 const SocketIoContext = React.createContext<
   SocketIOClient.Socket | null | undefined
@@ -13,6 +10,22 @@ const SocketIoContext = React.createContext<
 type SocketIoProviderProps = React.PropsWithChildren<{}>;
 
 export function SocketIoProvider({ children }: SocketIoProviderProps) {
+  const [io, setIo] = useState<Maybe<SocketIOClient.Socket>>(null);
+
+  useEffect(() => {
+    function prepare() {
+      const socket = socketIoClient('/', {
+        query: { token: getToken() },
+      });
+      setIo(socket);
+      return () => {
+        socket.disconnect();
+      };
+    }
+
+    prepare();
+  }, []);
+
   return (
     <SocketIoContext.Provider value={io}>{children}</SocketIoContext.Provider>
   );

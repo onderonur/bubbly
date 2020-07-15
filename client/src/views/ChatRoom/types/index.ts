@@ -19,3 +19,5 @@ export interface ChatNotification {
   body: string;
   timestamp: number;
 }
+
+export type ChatItem = ChatMessage | ChatNotification;
