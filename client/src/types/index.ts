@@ -1,3 +1,5 @@
+import { FormikConfig } from 'formik';
+
 export type Maybe<T> = T | null | undefined;
 
 export type ID = string;
@@ -16,3 +18,5 @@ declare global {
     }
   }
 }
+
+export type OnSubmitFn<Values> = FormikConfig<Values>['onSubmit'];

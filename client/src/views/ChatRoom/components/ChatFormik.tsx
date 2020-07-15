@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
-import { Formik, FormikConfig } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { trimString } from 'utils';
 import { ChatFormValues, ChatMessage } from '../types';
-import { ID } from 'types';
+import { ID, OnSubmitFn } from 'types';
 import useSocketIo from 'contexts/SocketIoContext';
 import { useViewer } from 'contexts/ViewerContext';
 import { nanoid } from 'nanoid';
@@ -24,8 +24,6 @@ const validationSchema = Yup.object().shape<ChatFormValues>({
   file: Yup.mixed(),
 });
 
-type OnSubmit = FormikConfig<ChatFormValues>['onSubmit'];
-
 export type ChatFormikProps = React.PropsWithChildren<{
   roomId: ID;
 }>;
@@ -36,7 +34,7 @@ function ChatFormik({ roomId, children }: ChatFormikProps) {
   const io = useSocketIo();
   const { viewer } = useViewer();
 
-  const handleSubmit = useCallback<OnSubmit>(
+  const handleSubmit = useCallback<OnSubmitFn<ChatFormValues>>(
     (values, formikHelpers) => {
       if (!viewer) {
         return;

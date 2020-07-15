@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from 'react';
 import { DialogActions } from '@material-ui/core';
-import { Formik, FormikConfig } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { trimString } from 'utils';
 import BaseTextField from 'components/BaseTextField';
@@ -14,6 +14,7 @@ import BaseDialogContent from 'components/BaseDialog/components/BaseDialogConten
 import SubmitButton from 'components/SubmitButton';
 import BaseButton from 'components/BaseButton';
 import { useViewer } from '..';
+import { OnSubmitFn } from 'types';
 
 interface ViewerFormValues {
   username: string;
@@ -38,7 +39,7 @@ const ViewerFormModal = React.memo(function ViewerFormModal() {
 
   const io = useSocketIo();
 
-  const handleSubmit = useCallback<FormikConfig<ViewerFormValues>['onSubmit']>(
+  const handleSubmit = useCallback<OnSubmitFn<ViewerFormValues>>(
     (values, formikHelpers) => {
       if (!viewer) {
         return;
