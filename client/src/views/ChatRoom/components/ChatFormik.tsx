@@ -34,7 +34,7 @@ function ChatFormik({ roomId, children }: ChatFormikProps) {
   const { setMessages, receiveMessage } = useChatMessages();
 
   const io = useSocketIo();
-  const viewer = useViewer();
+  const { viewer } = useViewer();
 
   const handleSubmit = useCallback<OnSubmit>(
     (values, formikHelpers) => {

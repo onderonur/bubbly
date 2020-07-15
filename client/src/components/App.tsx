@@ -15,15 +15,15 @@ const App = React.memo(function App() {
       <BaseThemeProvider>
         <BaseSnackbarProvider>
           <SocketIoProvider>
-            <ViewerProvider>
-              <ThemedRoomsProvider>
-                <Router>
+            <ThemedRoomsProvider>
+              <Router>
+                <ViewerProvider>
                   <AppLayout>
                     <Routes />
                   </AppLayout>
-                </Router>
-              </ThemedRoomsProvider>
-            </ViewerProvider>
+                </ViewerProvider>
+              </Router>
+            </ThemedRoomsProvider>
           </SocketIoProvider>
         </BaseSnackbarProvider>
       </BaseThemeProvider>

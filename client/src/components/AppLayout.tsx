@@ -2,7 +2,7 @@ import React from 'react';
 import { Container } from '@material-ui/core';
 import AppHeader from './AppHeader';
 import styled from 'styled-components';
-import ToolbarOffset from './ToolbarOffset';
+import ToolbarOffset from 'components/ToolbarOffset';
 import AppDrawer from './AppDrawer';
 import AppDrawerProvider from './AppDrawer/contexts/AppDrawerContext';
 

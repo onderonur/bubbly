@@ -1,11 +1,11 @@
 import React from 'react';
 import { IconButton } from '@material-ui/core';
 import styled from 'styled-components';
-import Stack from './Stack';
-import IsMobile from './IsMobile';
+import Stack from 'components/Stack';
+import IsMobile from 'components/IsMobile';
 import AppTitle from './AppTitle';
 import MenuIcon from '@material-ui/icons/Menu';
-import RouterLink from './RouterLink';
+import RouterLink from 'components/RouterLink';
 import { routes } from 'utils';
 
 const TitleLink = styled(RouterLink)`

@@ -33,7 +33,7 @@ interface ChatItemListItemProps {
 
 const ChatItemListItem = React.memo<ChatItemListItemProps>(
   function ChatItemListItem({ listItem }) {
-    const viewer = useViewer();
+    const { viewer } = useViewer();
 
     const isMessage = isOfType<ChatMessage>(listItem, ['author']);
 

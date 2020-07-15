@@ -4,12 +4,24 @@ import React, {
   useCallback,
   useContext,
   PropsWithChildren,
+  useMemo,
 } from 'react';
 import { SocketUser, Maybe } from 'types';
-import useSocketIo, { useSocketListener } from './SocketIoContext';
+import useSocketIo, { useSocketListener } from '../SocketIoContext';
 import { storeToken } from 'utils';
+import ViewerFormModal from './components/ViewerFormModal';
+import useDialogState from 'components/BaseDialog/hooks/useBaseDialog';
 
-const ViewerContext = React.createContext<Maybe<SocketUser>>(null);
+interface ViewerContextValue {
+  viewer: Maybe<SocketUser>;
+  isEditing: boolean;
+  startEditing: VoidFunction;
+  finishEditing: VoidFunction;
+}
+
+const ViewerContext = React.createContext<ViewerContextValue>(
+  {} as ViewerContextValue
+);
 
 export function useViewer() {
   const viewer = useContext(ViewerContext);
@@ -47,8 +59,25 @@ function ViewerProvider({ children }: ViewerProviderProps) {
 
   useSocketListener('edit user', handleViewerChange);
 
+  const { isOpen, openDialog, closeDialog } = useDialogState();
+
+  const contextValue = useMemo<ViewerContextValue>(
+    () => ({
+      viewer,
+      isEditing: isOpen,
+      startEditing: openDialog,
+      finishEditing: closeDialog,
+    }),
+    [closeDialog, isOpen, openDialog, viewer]
+  );
+
   return (
-    <ViewerContext.Provider value={viewer}>{children}</ViewerContext.Provider>
+    <>
+      <ViewerContext.Provider value={contextValue}>
+        {children}
+        <ViewerFormModal />
+      </ViewerContext.Provider>
+    </>
   );
 }
 

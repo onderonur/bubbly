@@ -16,7 +16,6 @@ import styled from 'styled-components';
 import CloseIcon from '@material-ui/icons/Close';
 import useIsMobile from 'hooks/useIsMobile';
 import IsMobile from 'components/IsMobile';
-import { Bold } from 'components/Text';
 import { ChatRoomRouteParams } from 'components/Routes';
 import useChatRoom from './hooks/useChatRoom';
 import ChatMessageProvider from './contexts/ChatMessageContext';
@@ -56,7 +55,7 @@ const ChatRoomContent = React.memo(function ChatRoomContent() {
           wrap="nowrap"
         >
           <Grid item xs={false} md={3}>
-            <RoomUserList roomId={roomId} />
+            <RoomUserList />
           </Grid>
           <Grid item xs md={9}>
             <Chat
@@ -74,15 +73,13 @@ const ChatRoomContent = React.memo(function ChatRoomContent() {
             alignItems="center"
             padding={1}
           >
-            <Typography variant="h5">
-              <Bold>Room Users</Bold>
-            </Typography>
+            <Typography variant="h5">Room Users</Typography>
             <IconButton onClick={toggleDrawer}>
               <CloseIcon />
             </IconButton>
           </Box>
           <Divider />
-          <RoomUserList roomId={roomId} />
+          <RoomUserList />
         </StyledDrawer>
       </IsMobile>
     </>

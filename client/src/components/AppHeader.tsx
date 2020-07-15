@@ -1,5 +1,14 @@
 import React from 'react';
-import { AppBar, Toolbar, Box, IconButton, useTheme } from '@material-ui/core';
+import {
+  AppBar,
+  Toolbar,
+  Box,
+  IconButton,
+  useTheme,
+  MenuItem,
+  ListItemText,
+  ListItemIcon,
+} from '@material-ui/core';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 import { useSettings } from 'contexts/SettingsContext';
@@ -18,6 +27,14 @@ import { useAppDrawer } from './AppDrawer/contexts/AppDrawerContext';
 import { Route } from 'react-router-dom';
 import { routes } from 'utils';
 import BaseButton from './BaseButton';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import BaseMenu, {
+  BaseMenuTrigger,
+  BaseMenuList,
+  BaseMenuItem,
+} from './BaseMenu';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { useViewer } from 'contexts/ViewerContext';
 
 const StyledAppBar = styled(AppBar)`
   /* To clip drawers under the header */
@@ -37,6 +54,8 @@ const AppHeader = React.memo(function AppHeader() {
   const { isOpen, openDialog, closeDialog } = useBaseDialog();
 
   const { toggleDrawer } = useAppDrawer();
+
+  const { startEditing } = useViewer();
 
   return (
     <>
@@ -70,28 +89,55 @@ const AppHeader = React.memo(function AppHeader() {
               <ShareDialog isOpen={isOpen} onClose={closeDialog} />
             </Route>
 
-            <IconButton
-              href="https://twitter.com/onderonur_"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <TwitterIcon />
-            </IconButton>
-            <IconButton
-              href="https://github.com/onderonur/bubbly"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <GitHubIcon />
-            </IconButton>
             <IconButton onClick={toggleTheme}>
               {isDarkTheme ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
-            <Route path={routes.chatRoom.path()}>
-              <IconButton onClick={toggleVolume}>
-                {volume ? <VolumeUpIcon /> : <VolumeOffIcon />}
-              </IconButton>
-            </Route>
+
+            <BaseMenu>
+              <BaseMenuTrigger>
+                <IconButton>
+                  <MoreVertIcon />
+                </IconButton>
+              </BaseMenuTrigger>
+              <BaseMenuList>
+                <Route path={routes.chatRoom.path()}>
+                  <BaseMenuItem onClick={toggleVolume}>
+                    <ListItemIcon>
+                      {volume ? <VolumeUpIcon /> : <VolumeOffIcon />}
+                    </ListItemIcon>
+                    <ListItemText primary={`Sound: ${volume ? 'On' : 'Off'}`} />
+                  </BaseMenuItem>
+                </Route>
+                <BaseMenuItem onClick={startEditing}>
+                  <ListItemIcon>
+                    <AccountCircleIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Account Settings" />
+                </BaseMenuItem>
+                <BaseMenuItem
+                  component="a"
+                  href="https://twitter.com/onderonur"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ListItemIcon>
+                    <TwitterIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Twitter" />
+                </BaseMenuItem>
+                <MenuItem
+                  component="a"
+                  href="https://github.com/onderonur/bubbly"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ListItemIcon>
+                    <GitHubIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="GitHub" />
+                </MenuItem>
+              </BaseMenuList>
+            </BaseMenu>
           </Stack>
         </Toolbar>
       </StyledAppBar>

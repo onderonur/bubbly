@@ -21,7 +21,7 @@ export interface ChatFormProps {
 
 const ChatForm = React.memo<ChatFormProps>(function ChatForm({ roomId }) {
   const io = useSocketIo();
-  const viewer = useViewer();
+  const { viewer } = useViewer();
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const isWindowFocused = useWindowFocus();
 

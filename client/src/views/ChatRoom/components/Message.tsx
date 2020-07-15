@@ -70,7 +70,7 @@ interface MessageProps {
 }
 
 const Message = React.memo<MessageProps>(function Message({ message }) {
-  const viewer = useViewer();
+  const { viewer } = useViewer();
   const isOwnMessage = message.author.id === viewer?.id;
 
   const imageUrl = useMemo(() => {

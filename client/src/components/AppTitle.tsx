@@ -2,9 +2,9 @@ import React from 'react';
 import { Typography } from '@material-ui/core';
 import styled from 'styled-components';
 import { Bold } from 'components/Text';
-import Stack from './Stack';
+import Stack from 'components/Stack';
 import AppLogo from './AppLogo';
-import IsMobile from './IsMobile';
+import IsMobile from 'components/IsMobile';
 
 const StyledAppLogo = styled(AppLogo)`
   width: 50px;
