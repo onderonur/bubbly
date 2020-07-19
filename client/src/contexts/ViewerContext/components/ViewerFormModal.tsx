@@ -44,8 +44,7 @@ const ViewerFormModal = React.memo(function ViewerFormModal() {
       if (!viewer) {
         return;
       }
-      const editedUser = { ...viewer, ...values };
-      io?.emit('edit user', editedUser, () => {
+      io?.emit('edit user', values, () => {
         formikHelpers.setSubmitting(false);
         finishEditing();
       });

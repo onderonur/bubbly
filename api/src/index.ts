@@ -158,15 +158,16 @@ io.on('connection', (socket) => {
     socket.to(roomId).emit('finished typing', socket.user);
   });
 
-  socket.on('edit user', (input: SocketUser, callback) => {
-    const userRoomIds = getUserRoomIds(io, socket);
-    const editedUser = appUsers.get(input.id);
-    if (editedUser) {
+  socket.on(
+    'edit user',
+    (input: Pick<SocketUser, 'username' | 'color'>, callback) => {
+      const userRoomIds = getUserRoomIds(io, socket);
+      const socketUser = socket.user;
       const newUsername = trimSpaces(input.username);
       if (newUsername) {
-        const oldUsername = editedUser.username;
+        const oldUsername = socketUser.username;
         if (newUsername && oldUsername !== newUsername) {
-          editedUser.username = newUsername;
+          socketUser.username = newUsername;
           userRoomIds.forEach((roomId) => {
             notify({
               socket,
@@ -182,15 +183,15 @@ io.on('connection', (socket) => {
 
       const newColor = input.color;
       if (newColor) {
-        const oldColor = editedUser.color;
+        const oldColor = socketUser.color;
         if (oldColor !== newColor) {
-          editedUser.color = newColor;
+          socketUser.color = newColor;
           userRoomIds.forEach((roomId) => {
             notify({
               socket,
               roomId,
               notification: notifications.editedColor(
-                editedUser.username,
+                socketUser.username,
                 newColor
               ),
             });
@@ -198,15 +199,13 @@ io.on('connection', (socket) => {
         }
       }
 
-      // eslint-disable-next-line no-param-reassign
-      socket.user = editedUser;
-      appUsers.set(editedUser.id, editedUser);
-      callback(editedUser);
+      appUsers.set(socketUser.id, socketUser);
+      callback(socketUser);
       userRoomIds.forEach((roomId) => {
-        io.to(roomId).emit('edit user', editedUser);
+        io.to(roomId).emit('edit user', socketUser);
       });
     }
-  });
+  );
 
   socket.on('disconnecting', () => {
     // User leaves all of the rooms before "disconnected".
