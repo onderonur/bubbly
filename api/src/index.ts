@@ -123,27 +123,42 @@ io.on('connection', (socket) => {
     });
   });
 
-  socket.on('chat message', async (roomId, { body, file }, callback) => {
-    const trimmedBody = body ? trimSpaces(body) : null;
-    if (!trimmedBody && !file) {
-      return;
-    }
-    if (file) {
-      const isImage = await isImageFile(file);
-      if (!isImage) {
+  socket.on(
+    'chat message',
+    async (
+      roomId,
+      { body, file }: { body: Maybe<string>; file: Maybe<Buffer | string> },
+      callback
+    ) => {
+      const trimmedBody = body ? trimSpaces(body) : null;
+      if (!trimmedBody && !file) {
         return;
       }
+      // "file" can be a Buffer or base64 string.
+      // base64 string is used for react-native app here.
+      let inputFile = null;
+      if (file instanceof Buffer) {
+        inputFile = file;
+      } else if (typeof file === 'string') {
+        inputFile = Buffer.from(file, 'base64');
+      }
+      if (inputFile) {
+        const isImage = await isImageFile(inputFile);
+        if (!isImage) {
+          return;
+        }
+      }
+      const newMessage: ChatMessage = {
+        id: nanoid(),
+        author: socket.user,
+        body: trimmedBody,
+        timestamp: Date.now(),
+        file: inputFile,
+      };
+      socket.to(roomId).emit('chat message', newMessage);
+      callback(newMessage);
     }
-    const newMessage: ChatMessage = {
-      id: nanoid(),
-      author: socket.user,
-      body: trimmedBody,
-      timestamp: Date.now(),
-      file,
-    };
-    socket.to(roomId).emit('chat message', newMessage);
-    callback(newMessage);
-  });
+  );
 
   // TODO: May add this feature later.
   // socket.on('message received', (roomId, messageId, userId) => {

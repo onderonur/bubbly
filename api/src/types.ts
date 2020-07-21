@@ -24,7 +24,7 @@ export interface ChatMessage {
   author: SocketUser;
   body: Maybe<string>;
   timestamp: number;
-  file?: ArrayBuffer;
+  file: Maybe<Buffer>;
 }
 
 declare global {
