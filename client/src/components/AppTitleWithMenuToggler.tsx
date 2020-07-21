@@ -9,7 +9,6 @@ import RouterLink from 'components/RouterLink';
 import { routes } from 'utils';
 
 const TitleLink = styled(RouterLink)`
-  text-decoration: none;
   color: inherit;
 ` as typeof RouterLink;
 

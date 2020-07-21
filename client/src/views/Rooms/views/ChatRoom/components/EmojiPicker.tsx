@@ -1,10 +1,16 @@
 import 'emoji-mart/css/emoji-mart.css';
 import React, { useCallback, useEffect } from 'react';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
-import { IconButton, Popover, useTheme } from '@material-ui/core';
+import {
+  IconButton,
+  useTheme,
+  Popper,
+  Grow,
+  ClickAwayListener,
+} from '@material-ui/core';
 import { Picker, BaseEmoji, PickerProps } from 'emoji-mart';
 import { useFormikContext, useField } from 'formik';
-import usePopover from 'hooks/usePopover';
+import usePopper from 'hooks/usePopper';
 import { Maybe } from 'types';
 import { isNullOrUndefined } from 'utils';
 
@@ -20,7 +26,7 @@ const EmojiPicker = React.memo<EmojiPickerProps>(function EmojiPicker(props) {
 
   const { name, targetInput } = props;
 
-  const { anchorEl, openPopover, closePopover } = usePopover();
+  const { anchorEl, openPopper, closePopper } = usePopper();
 
   // Focus on the input when the popover is closed.
   useEffect(() => {
@@ -46,25 +52,37 @@ const EmojiPicker = React.memo<EmojiPickerProps>(function EmojiPicker(props) {
       // It might be a better idea to use a "docked"
       // emoji selector (like whatsapp) instead of
       // repeatedly opening/closing the popover.
-      closePopover();
+      closePopper();
     },
-    [closePopover, name, setFieldValue, targetInput, value]
+    [closePopper, name, setFieldValue, targetInput, value]
   );
 
   const theme = useTheme();
 
   return (
     <>
-      <IconButton onClick={openPopover}>
+      <IconButton onClick={openPopper}>
         <InsertEmoticonIcon />
       </IconButton>
-      <Popover open={!!anchorEl} anchorEl={anchorEl} onClose={closePopover}>
-        <Picker
-          theme={theme.palette.type}
-          set="apple"
-          onSelect={handleSelect}
-        />
-      </Popover>
+      {/* Popover messes with the emoji-mart's tabs. It scrolls to the wrong
+      section. */}
+      <Popper open={!!anchorEl} anchorEl={anchorEl} transition disablePortal>
+        {({ TransitionProps, placement }) => {
+          return (
+            <Grow
+              {...TransitionProps}
+              style={{
+                transformOrigin:
+                  placement === 'bottom' ? 'center top' : 'center bottom',
+              }}
+            >
+              <ClickAwayListener onClickAway={closePopper}>
+                <Picker theme={theme.palette.type} onSelect={handleSelect} />
+              </ClickAwayListener>
+            </Grow>
+          );
+        }}
+      </Popper>
     </>
   );
 });

@@ -11,7 +11,7 @@ import { SocketUser, ID } from 'types';
 // https://material.io/design/sound/sound-resources.html#
 // TODO: Will fix the type error here
 // @ts-ignore
-import notificationWav from 'views/ChatRoom/sounds/notification.wav';
+import notificationWav from '../sounds/notification.wav';
 import useWindowFocus from '../hooks/useWindowFocus';
 import { useSettings } from 'contexts/SettingsContext';
 import { produce } from 'immer';

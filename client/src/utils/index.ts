@@ -53,8 +53,13 @@ export const routes = {
   home: {
     path: () => '/',
   },
-  chatRoom: {
-    path: (params: { roomId?: ID } = { roomId: ':roomId' }) =>
-      `/${params.roomId}`,
+  rooms: {
+    path: () => '/rooms',
+    routes: {
+      chatRoom: {
+        path: (params: { roomId?: ID } = { roomId: ':roomId' }) =>
+          `/rooms/${params.roomId}`,
+      },
+    },
   },
 };

@@ -78,7 +78,6 @@ const Message = React.memo<MessageProps>(function Message({ message }) {
     if (!file) {
       return;
     }
-
     const arrayBufferView = new Uint8Array(file as ArrayBuffer);
     const blob = new Blob([arrayBufferView], { type: 'image/jpeg' });
     const urlCreator = window.URL || window.webkitURL;

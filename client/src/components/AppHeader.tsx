@@ -68,7 +68,7 @@ const AppHeader = React.memo(function AppHeader() {
           />
           <Box flex={1} />
           <Stack spacing={1} alignItems="center">
-            <Route path={routes.chatRoom.path()}>
+            <Route path={routes.rooms.routes.chatRoom.path()}>
               <IsMobile
                 fallback={
                   <BaseButton
@@ -100,7 +100,7 @@ const AppHeader = React.memo(function AppHeader() {
                 </IconButton>
               </BaseMenuTrigger>
               <BaseMenuList>
-                <Route path={routes.chatRoom.path()}>
+                <Route path={routes.rooms.routes.chatRoom.path()}>
                   <BaseMenuItem onClick={toggleVolume}>
                     <ListItemIcon>
                       {volume ? <VolumeUpIcon /> : <VolumeOffIcon />}

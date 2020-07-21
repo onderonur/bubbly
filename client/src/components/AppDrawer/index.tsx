@@ -51,7 +51,7 @@ const AppDrawer = React.memo(function AppDrawer() {
           subheader={<ListSubheader disableSticky>Themed Rooms</ListSubheader>}
         >
           {themedRooms?.map((room) => {
-            const to = routes.chatRoom.path({ roomId: room.slug });
+            const to = routes.rooms.routes.chatRoom.path({ roomId: room.slug });
             return (
               <ListItem
                 key={room.slug}

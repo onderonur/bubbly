@@ -8,10 +8,10 @@ import { useViewer } from 'contexts/ViewerContext';
 import usePrevious from 'hooks/usePrevious';
 import BaseForm from 'components/BaseForm';
 import Stack from 'components/Stack';
-import EmojiPicker from 'views/ChatRoom/components/EmojiPicker';
+import EmojiPicker from './EmojiPicker';
 import { SubmitIconButton } from 'components/SubmitButton';
 import useWindowFocus from '../hooks/useWindowFocus';
-import { ChatFormValues } from 'views/ChatRoom/types';
+import { ChatFormValues } from '../types';
 
 const enterKeyCode = 13;
 
@@ -108,13 +108,12 @@ const ChatForm = React.memo<ChatFormProps>(function ChatForm({ roomId }) {
           inputRef={inputRef}
           name="body"
           placeholder="Type a message"
-          variant="filled"
           fullWidth
           required
           multiline
           autoFocus
           hideErrors
-          rowsMax={6}
+          rowsMax={4}
           onChange={handleTyping}
           onKeyPress={handleKeyPress}
         />

@@ -42,7 +42,7 @@ const HomeView = React.memo(function Home() {
     io?.emit('create room', (roomId: ID) => {
       setLoading(false);
       success('Welcome to your chat room!');
-      history.push(routes.chatRoom.path({ roomId }));
+      history.push(routes.rooms.routes.chatRoom.path({ roomId }));
     });
   }, [history, io, success]);
 

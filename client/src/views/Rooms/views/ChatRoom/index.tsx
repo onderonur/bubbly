@@ -16,7 +16,7 @@ import styled from 'styled-components';
 import CloseIcon from '@material-ui/icons/Close';
 import useIsMobile from 'hooks/useIsMobile';
 import IsMobile from 'components/IsMobile';
-import { ChatRoomRouteParams } from 'components/Routes';
+import { ChatRoomRouteParams } from 'views';
 import useChatRoom from './hooks/useChatRoom';
 import ChatMessageProvider from './contexts/ChatMessageContext';
 
