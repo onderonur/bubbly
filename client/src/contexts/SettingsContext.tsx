@@ -3,13 +3,13 @@ import { PaletteType } from '@material-ui/core';
 import useSyncLocalStorage from 'hooks/useSyncLocalStorage';
 
 interface SettingsOptions {
-  volume: boolean;
+  isSoundOn: boolean;
   themeType: PaletteType;
 }
 
 interface SettingsContextValue {
   settings: SettingsOptions;
-  toggleVolume: VoidFunction;
+  toggleIsSoundOn: VoidFunction;
   toggleTheme: VoidFunction;
 }
 
@@ -28,16 +28,19 @@ function SettingsProvider({ children }: SettingsProviderProps) {
   const [settings, setSettings] = useSyncLocalStorage<SettingsOptions>(
     'settings',
     {
+      isSoundOn: true,
       themeType: 'light',
-      volume: true,
     }
   );
 
   const contextValue = useMemo(
     () => ({
       settings,
-      toggleVolume: () =>
-        setSettings((current) => ({ ...current, volume: !current.volume })),
+      toggleIsSoundOn: () =>
+        setSettings((current) => ({
+          ...current,
+          isSoundOn: !current.isSoundOn,
+        })),
       toggleTheme: () =>
         setSettings((current) => {
           if (current.themeType === 'light') {

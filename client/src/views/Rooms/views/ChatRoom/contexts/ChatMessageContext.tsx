@@ -48,13 +48,13 @@ function ChatMessageProvider({ roomId, children }: ChatMessageProviderProps) {
 
   const isFocused = useWindowFocus();
   const {
-    settings: { volume },
+    settings: { isSoundOn },
   } = useSettings();
 
   const receiveMessage = useCallback(
     (message: ChatMessage) => {
       setMessages((current) => [...current, message]);
-      if (!isFocused && volume) {
+      if (!isFocused && isSoundOn) {
         notificationSound.play();
       }
       // TODO
@@ -62,7 +62,7 @@ function ChatMessageProvider({ roomId, children }: ChatMessageProviderProps) {
       //   io?.emit('received message', roomId, message.id, viewer.id);
       // }
     },
-    [isFocused, volume]
+    [isFocused, isSoundOn]
   );
 
   useSocketListener('chat message', receiveMessage);

@@ -42,8 +42,8 @@ const StyledAppBar = styled(AppBar)`
 `;
 
 const AppHeader = React.memo(function AppHeader() {
-  const { settings, toggleVolume } = useSettings();
-  const { volume } = settings;
+  const { settings, toggleIsSoundOn } = useSettings();
+  const { isSoundOn } = settings;
 
   const { toggleTheme } = useSettings();
 
@@ -101,11 +101,13 @@ const AppHeader = React.memo(function AppHeader() {
               </BaseMenuTrigger>
               <BaseMenuList>
                 <Route path={routes.rooms.routes.chatRoom.path()}>
-                  <BaseMenuItem onClick={toggleVolume}>
+                  <BaseMenuItem onClick={toggleIsSoundOn}>
                     <ListItemIcon>
-                      {volume ? <VolumeUpIcon /> : <VolumeOffIcon />}
+                      {isSoundOn ? <VolumeUpIcon /> : <VolumeOffIcon />}
                     </ListItemIcon>
-                    <ListItemText primary={`Sound: ${volume ? 'On' : 'Off'}`} />
+                    <ListItemText
+                      primary={`Sound: ${isSoundOn ? 'On' : 'Off'}`}
+                    />
                   </BaseMenuItem>
                 </Route>
                 <BaseMenuItem onClick={startEditing}>
