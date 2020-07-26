@@ -54,7 +54,7 @@ const ViewerFormModal = React.memo(function ViewerFormModal() {
 
   return (
     <BaseDialog open={isEditing} onClose={finishEditing} fullWidth responsive>
-      <BaseDialogTitle>Account Settings</BaseDialogTitle>
+      <BaseDialogTitle>Profile</BaseDialogTitle>
       <Formik<ViewerFormValues>
         initialValues={initialValues}
         validationSchema={validationSchema}

@@ -112,7 +112,7 @@ const AppHeader = React.memo(function AppHeader() {
                   <ListItemIcon>
                     <AccountCircleIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Account Settings" />
+                  <ListItemText primary="Profile" />
                 </BaseMenuItem>
                 <BaseMenuItem
                   component="a"
