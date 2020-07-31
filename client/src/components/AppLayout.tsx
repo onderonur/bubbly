@@ -1,10 +1,11 @@
 import React from 'react';
-import { Container } from '@material-ui/core';
+import { Container, useTheme } from '@material-ui/core';
 import AppHeader from './AppHeader';
 import styled from 'styled-components';
 import ToolbarOffset from 'components/ToolbarOffset';
 import AppDrawer from './AppDrawer';
 import AppDrawerProvider from './AppDrawer/contexts/AppDrawerContext';
+import { Helmet } from 'react-helmet';
 
 const Root = styled.div`
   display: flex;
@@ -22,17 +23,24 @@ const Content = styled.main`
 type AppLayoutProps = React.PropsWithChildren<{}>;
 
 function AppLayout({ children }: AppLayoutProps) {
+  const theme = useTheme();
+
   return (
-    <AppDrawerProvider>
-      <Root>
-        <AppHeader />
-        <AppDrawer />
-        <Container component={Content} maxWidth="lg">
-          <ToolbarOffset />
-          <>{children}</>
-        </Container>
-      </Root>
-    </AppDrawerProvider>
+    <>
+      <Helmet>
+        <meta name="theme-color" content={theme.palette.background.paper} />
+      </Helmet>
+      <AppDrawerProvider>
+        <Root>
+          <AppHeader />
+          <AppDrawer />
+          <Container component={Content} maxWidth="lg">
+            <ToolbarOffset />
+            <>{children}</>
+          </Container>
+        </Root>
+      </AppDrawerProvider>
+    </>
   );
 }
 
