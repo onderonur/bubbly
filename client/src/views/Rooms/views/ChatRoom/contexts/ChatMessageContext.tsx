@@ -57,7 +57,7 @@ function ChatMessageProvider({ roomId, children }: ChatMessageProviderProps) {
       if (!isFocused && isSoundOn) {
         notificationSound.play();
       }
-      // TODO
+      // TODO: May add this feature later.
       // if (viewer) {
       //   io?.emit('received message', roomId, message.id, viewer.id);
       // }
