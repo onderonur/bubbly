@@ -15,6 +15,7 @@ import {
   getSocketRoomIds,
   handleUserLeavingTheRoom,
   getUserRoomIds,
+  convertMBToByte,
 } from './utils';
 import notifications, { notify } from './notifications';
 import jwt from 'jsonwebtoken';
@@ -34,8 +35,15 @@ app.use(helmet());
 
 app.use('/api', router);
 
+const maxMessageSizeInMB = 2;
+
 const http = createServer(app);
-const io = socketIo(http);
+const io = socketIo(http, {
+  // Max size for a message
+  // TODO: We need a way to handle exceptions
+  // those caused by this option on the client side.
+  maxHttpBufferSize: convertMBToByte(maxMessageSizeInMB),
+});
 
 if (!isDev) {
   const relativeBuildPath = '../../client/build';

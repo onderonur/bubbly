@@ -1,22 +1,22 @@
 import { Router } from 'express';
-import { ThemedRoom } from './types';
+import { Topic } from './types';
 
-const themedRooms: ThemedRoom[] = [
-  { title: 'Random Chat', slug: 'random-chat' },
-  { title: 'Music', slug: 'music' },
-  { title: 'Movies', slug: 'movies' },
-  { title: 'Comics', slug: 'comics' },
-  { title: 'Games', slug: 'games' },
-  { title: 'Books', slug: 'books' },
-  { title: 'Anime & Manga', slug: 'anime-and-manga' },
-  { title: 'Arts & Creativity', slug: 'arts-and-creativity' },
-  { title: 'Technology', slug: 'technology' },
+const topics: Topic[] = [
+  { title: 'Random Chat', roomId: 'random-chat' },
+  { title: 'Music', roomId: 'music' },
+  { title: 'Movies', roomId: 'movies' },
+  { title: 'Comics', roomId: 'comics' },
+  { title: 'Games', roomId: 'games' },
+  { title: 'Books', roomId: 'books' },
+  { title: 'Anime & Manga', roomId: 'anime-and-manga' },
+  { title: 'Arts & Creativity', roomId: 'arts-and-creativity' },
+  { title: 'Technology', roomId: 'technology' },
 ];
 
 const router = Router();
 
-router.get('/rooms/themed', (req, res) => {
-  res.json(themedRooms);
+router.get('/topics', (req, res) => {
+  res.json(topics);
 });
 
 export default router;

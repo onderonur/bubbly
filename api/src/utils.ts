@@ -164,3 +164,5 @@ export const createNewUser = (socket: SocketIO.Socket): SocketUser => {
     color: generateRandomHexColor(),
   };
 };
+
+export const convertMBToByte = (mb: number): number => mb * 1024 * 1024;

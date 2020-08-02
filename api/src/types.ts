@@ -39,7 +39,7 @@ export interface JwtTokenPayload {
   id: ID;
 }
 
-export interface ThemedRoom {
+export interface Topic {
   title: string;
-  slug: string;
+  roomId: ID;
 }
