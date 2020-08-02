@@ -11,7 +11,7 @@ import ChatImagePreview from './ChatImagePreview';
 import ChatFormik from './ChatFormik';
 import Stack from 'components/Stack';
 import { Bold } from 'components/Text';
-import { useThemedRooms } from 'contexts/ThemedRoomsContext';
+import { useTopics } from 'contexts/TopicsContext';
 
 interface ChatProps {
   roomId: ID;
@@ -22,8 +22,8 @@ const Chat = React.memo<ChatProps>(function Chat({
   roomId,
   onClickRoomUserCounter,
 }) {
-  const themedRooms = useThemedRooms();
-  const foundThemedRoom = themedRooms?.find((room) => room.slug === roomId);
+  const topics = useTopics();
+  const foundTopic = topics?.find((topic) => topic.roomId === roomId);
 
   return (
     <ChatFormik roomId={roomId}>
@@ -32,9 +32,9 @@ const Chat = React.memo<ChatProps>(function Chat({
           <ChatHeader justifyContent="space-between">
             <Stack spacing={2} alignItems="center">
               <RoomUserCounter onClick={onClickRoomUserCounter} />
-              {foundThemedRoom && (
+              {foundTopic && (
                 <Typography variant="h6" color="textSecondary" noWrap>
-                  <Bold>{foundThemedRoom.title}</Bold>
+                  <Bold>{foundTopic.title}</Bold>
                 </Typography>
               )}
             </Stack>

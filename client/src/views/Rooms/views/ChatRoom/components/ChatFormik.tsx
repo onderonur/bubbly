@@ -1,7 +1,12 @@
 import React, { useCallback } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { trimString } from 'utils';
+import {
+  trimString,
+  maxFileSizeInMB,
+  validateFileType,
+  validateFileSize,
+} from 'utils';
 import { ChatFormValues, ChatMessage } from '../types';
 import { ID, OnSubmitFn } from 'types';
 import useSocketIo from 'contexts/SocketIoContext';
@@ -20,8 +25,36 @@ const validationSchema = Yup.object().shape<ChatFormValues>({
       then: Yup.string().required(),
     })
     .transform(trimString),
-  // TODO: Will fix this and add some validations for files
-  file: Yup.mixed(),
+  // https://github.com/formium/formik/issues/926#issuecomment-430906502
+  file: Yup.mixed<ChatFormValues['file']>()
+    .test(
+      'fileSize',
+      `Max size should be ${maxFileSizeInMB} MB`,
+      (value: ChatFormValues['file']) => {
+        try {
+          if (value) {
+            validateFileSize(value);
+          }
+          return true;
+        } catch {
+          return false;
+        }
+      }
+    )
+    .test(
+      'fileType',
+      'Only image files are allowed',
+      (value: ChatFormValues['file']) => {
+        try {
+          if (value) {
+            validateFileType(value);
+          }
+          return true;
+        } catch {
+          return false;
+        }
+      }
+    ),
 });
 
 export type ChatFormikProps = React.PropsWithChildren<{

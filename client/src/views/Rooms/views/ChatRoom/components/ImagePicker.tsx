@@ -4,6 +4,7 @@ import AttachFileIcon from '@material-ui/icons/AttachFile';
 import { useFormikContext, useField } from 'formik';
 import { ChatFormValues } from '../types';
 import { useSnack } from 'contexts/BaseSnackbarContext';
+import { supportedFileTypes, validateFileType, validateFileSize } from 'utils';
 
 interface ImagePickerProps {
   name: string;
@@ -20,11 +21,15 @@ const ImagePicker = React.memo<ImagePickerProps>(function ImagePicker({
   const handleSelectFile = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
-      if (!file?.type.startsWith('image/')) {
-        error('Sorry, only images are allowed.');
-        return;
+      if (file) {
+        try {
+          validateFileType(file);
+          validateFileSize(file);
+          setFieldValue(name, file);
+        } catch (err) {
+          error(err.message);
+        }
       }
-      setFieldValue(name, file);
     },
     [error, name, setFieldValue]
   );
@@ -32,7 +37,7 @@ const ImagePicker = React.memo<ImagePickerProps>(function ImagePicker({
   return (
     <div>
       <input
-        accept="image/*"
+        accept={supportedFileTypes.join(',')}
         id="icon-button-file"
         type="file"
         hidden={true}

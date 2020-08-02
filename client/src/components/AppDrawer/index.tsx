@@ -15,7 +15,7 @@ import useIsMobile from 'hooks/useIsMobile';
 import AppTitleWithMenuToggler from '../AppTitleWithMenuToggler';
 import { useLocation } from 'react-router-dom';
 import { useAppDrawer } from './contexts/AppDrawerContext';
-import { useThemedRooms } from 'contexts/ThemedRoomsContext';
+import { useTopics } from 'contexts/TopicsContext';
 import { routes } from 'utils';
 
 const drawerWidth = '240px';
@@ -28,7 +28,7 @@ const StyledDrawer = styled(Drawer)`
 `;
 
 const AppDrawer = React.memo(function AppDrawer() {
-  const themedRooms = useThemedRooms();
+  const topics = useTopics();
 
   const isMobile = useIsMobile();
 
@@ -46,21 +46,21 @@ const AppDrawer = React.memo(function AppDrawer() {
         <AppTitleWithMenuToggler onClickMenuButton={toggleDrawer} />
       </Toolbar>
       <Divider />
-      <Loading loading={!themedRooms}>
-        <List
-          subheader={<ListSubheader disableSticky>Themed Rooms</ListSubheader>}
-        >
-          {themedRooms?.map((room) => {
-            const to = routes.rooms.routes.chatRoom.path({ roomId: room.slug });
+      <Loading loading={!topics}>
+        <List subheader={<ListSubheader disableSticky>Topics</ListSubheader>}>
+          {topics?.map((topic) => {
+            const to = routes.rooms.routes.chatRoom.path({
+              roomId: topic.roomId,
+            });
             return (
               <ListItem
-                key={room.slug}
+                key={topic.roomId}
                 button
                 component={RouterLink}
                 to={to}
                 selected={location.pathname === to}
               >
-                <ListItemText primary={room.title} />
+                <ListItemText primary={topic.title} />
               </ListItem>
             );
           })}

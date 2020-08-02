@@ -7,7 +7,7 @@ import ViewerProvider from 'contexts/ViewerContext';
 import SettingsProvider from 'contexts/SettingsContext';
 import BaseThemeProvider from '../contexts/BaseThemeContext';
 import BaseSnackbarProvider from 'contexts/BaseSnackbarContext';
-import ThemedRoomsProvider from 'contexts/ThemedRoomsContext';
+import TopicsProvider from 'contexts/TopicsContext';
 
 const App = React.memo(function App() {
   return (
@@ -15,7 +15,7 @@ const App = React.memo(function App() {
       <BaseThemeProvider>
         <BaseSnackbarProvider>
           <SocketIoProvider>
-            <ThemedRoomsProvider>
+            <TopicsProvider>
               <Router>
                 <ViewerProvider>
                   <AppLayout>
@@ -23,7 +23,7 @@ const App = React.memo(function App() {
                   </AppLayout>
                 </ViewerProvider>
               </Router>
-            </ThemedRoomsProvider>
+            </TopicsProvider>
           </SocketIoProvider>
         </BaseSnackbarProvider>
       </BaseThemeProvider>

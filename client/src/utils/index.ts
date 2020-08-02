@@ -63,3 +63,27 @@ export const routes = {
     },
   },
 };
+
+export const maxFileSizeInMB = 1;
+export const supportedFileTypes = ['image/*'];
+
+function convertByteToMB(byte: number) {
+  return byte / (1024 * 1024);
+}
+
+export function validateFileType(file: File) {
+  const fileTypePrefix = file.type.split('/')[0];
+  const isValid = supportedFileTypes.some((type) => {
+    const currentPrefix = type.split('/')[0];
+    return fileTypePrefix === currentPrefix;
+  });
+  if (!isValid) {
+    throw new Error('Only image files are allowed.');
+  }
+}
+
+export function validateFileSize(file: File) {
+  if (convertByteToMB(file.size) > maxFileSizeInMB) {
+    throw new Error(`Max file size should be ${maxFileSizeInMB} MB.`);
+  }
+}
