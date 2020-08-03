@@ -31,7 +31,20 @@ if (!JWT_TOKEN_SECRET) {
 // https://socket.io/docs/server-initialization/#With-Express
 const app = express();
 
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        // "unsafe-inline" is needed to server SPA.
+        defaultSrc: ["'self'", "'unsafe-inline'"],
+        // "unsafe-inline" is needed to server SPA.
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        objectSrc: ["'none'"],
+        upgradeInsecureRequests: [],
+      },
+    },
+  })
+);
 
 app.use('/api', router);
 
