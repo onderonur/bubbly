@@ -17,7 +17,6 @@ import MessageImage from './MessageImage';
 import styled, { CSSProperties } from 'styled-components';
 import Linkify from 'react-linkify';
 import { Bold } from 'components/Text';
-import { Maybe } from 'types';
 import useIsMobile from 'hooks/useIsMobile';
 import { dateTimeFormats, formatDateTime } from 'utils';
 
@@ -25,21 +24,12 @@ const maxWidth = '70%';
 const minWidthWithImage = '50%';
 const minWidthWithImageOnMobile = maxWidth;
 
-interface RootStyleProps {
+interface BubbleStyleProps {
   $bgColor: NonNullable<CSSProperties['backgroundColor']>;
-  $imageUrl: Maybe<string>;
-  $isMobile: boolean;
 }
 
-const Root = styled(Paper)<RootStyleProps>`
+const Bubble = styled(Paper)<BubbleStyleProps>`
   background-color: ${({ $bgColor }) => $bgColor};
-  min-width: ${({ $isMobile, $imageUrl }) =>
-    $imageUrl
-      ? $isMobile
-        ? minWidthWithImageOnMobile
-        : minWidthWithImage
-      : undefined};
-  max-width: ${maxWidth};
   color: ${({ theme, $bgColor }) => theme.palette.getContrastText($bgColor)};
   padding: ${({ theme }) => theme.spacing(1)}px;
 `;
@@ -96,41 +86,44 @@ const Message = React.memo<MessageProps>(function Message({ message }) {
   const isMobile = useIsMobile();
 
   return (
-    <Root
-      $bgColor={message.author.color}
-      $imageUrl={imageUrl}
-      $isMobile={isMobile}
+    <Box
+      minWidth={
+        imageUrl
+          ? isMobile
+            ? minWidthWithImageOnMobile
+            : minWidthWithImage
+          : undefined
+      }
+      maxWidth={maxWidth}
     >
-      {!isOwnMessage && (
-        <Typography variant="body2" noWrap>
-          <Bold>{message.author.username}</Bold>
-        </Typography>
-      )}
-      {imageUrl && (
-        <Box marginBottom={1}>
-          <MessageImage src={imageUrl} alt={imageTitle} />
-        </Box>
-      )}
-      <Linkify
-        componentDecorator={(href, text, key) => (
-          <MessageLink
-            key={key}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            $fontColor={linkColor}
-          >
-            <Bold>{text}</Bold>
-          </MessageLink>
+      <Bubble $bgColor={message.author.color}>
+        {!isOwnMessage && (
+          <Typography variant="body2" noWrap>
+            <Bold>{message.author.username}</Bold>
+          </Typography>
         )}
-      >
-        <MessageBody variant="body2">{message.body}</MessageBody>
-      </Linkify>
-      <MessageInfo
-        spacing={0.5}
-        justifyContent="flex-end"
-        alignItems="flex-end"
-      >
+        {imageUrl && (
+          <Box marginBottom={1}>
+            <MessageImage src={imageUrl} alt={imageTitle} />
+          </Box>
+        )}
+        <Linkify
+          componentDecorator={(href, text, key) => (
+            <MessageLink
+              key={key}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              $fontColor={linkColor}
+            >
+              <Bold>{text}</Bold>
+            </MessageLink>
+          )}
+        >
+          <MessageBody variant="body2">{message.body}</MessageBody>
+        </Linkify>
+      </Bubble>
+      <MessageInfo spacing={0.5} justifyContent="flex-end" alignItems="center">
         <Tooltip
           title={formatDateTime(message.timestamp, dateTimeFormats.dateTime)}
         >
@@ -138,9 +131,9 @@ const Message = React.memo<MessageProps>(function Message({ message }) {
             {formatDateTime(message.timestamp, dateTimeFormats.time)}
           </Typography>
         </Tooltip>
-        {isOwnMessage && <StatusIcon fontSize="small" />}
+        {isOwnMessage && <StatusIcon fontSize="inherit" />}
       </MessageInfo>
-    </Root>
+    </Box>
   );
 });
 
