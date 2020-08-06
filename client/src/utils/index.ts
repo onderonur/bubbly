@@ -1,6 +1,28 @@
 import { ID } from 'types';
 import dayjs from 'dayjs';
 
+async function handleResponse(response: Response) {
+  if (response.ok) {
+    return await response.json();
+  } else {
+    let message = response.statusText;
+
+    try {
+      const errorJson = await response.json();
+      message = errorJson.message;
+    } catch {}
+
+    const error = new Error(message);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (error as any).response = response;
+    throw error;
+  }
+}
+
+export const api = {
+  get: (url: string) => fetch(url).then(handleResponse),
+};
+
 export const dateTimeFormats = {
   dateTime: 'DD/MM/YYYY HH:mm',
   time: 'HH:mm',
@@ -10,7 +32,9 @@ export function formatDateTime(date: dayjs.ConfigType, format: string) {
   return dayjs(date).format(format);
 }
 
-export function trimString(str: string) {
+// Remove all spaces around the string.
+// Including "new line"s.
+export function removeSpaceAround(str: string) {
   return str.replace(/^\s+|\s+$/g, '');
 }
 

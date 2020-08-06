@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import {
-  trimString,
+  removeSpaceAround,
   maxFileSizeInMB,
   validateFileType,
   validateFileSize,
@@ -24,7 +24,7 @@ const validationSchema = Yup.object().shape<ChatFormValues>({
       is: (file) => !file,
       then: Yup.string().required(),
     })
-    .transform(trimString),
+    .transform(removeSpaceAround),
   // https://github.com/formium/formik/issues/926#issuecomment-430906502
   file: Yup.mixed<ChatFormValues['file']>()
     .test(
@@ -75,7 +75,7 @@ function ChatFormik({ roomId, children }: ChatFormikProps) {
       const { body, file } = values;
       const tempMessage: ChatMessage = {
         id: nanoid(),
-        body: body ? trimString(body) : null,
+        body: body ? removeSpaceAround(body) : null,
         author: viewer,
         timestamp: Date.now(),
         file,

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import useSwr from 'swr';
 import { Maybe, ID } from 'types';
+import { api } from 'utils';
 
 interface Topic {
   title: string;
@@ -18,10 +19,12 @@ export function useTopics() {
 
 type TopicsProviderProps = React.PropsWithChildren<{}>;
 
-const fetcher = (url: string) => fetch(url).then((response) => response.json());
-
 function TopicsProvider({ children }: TopicsProviderProps) {
-  const { data } = useSwr<Topic[]>('/api/topics', fetcher);
+  const { data, error } = useSwr<Topic[]>('/api/topics', api.get);
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
 
   return (
     <TopicsContext.Provider value={data}>{children}</TopicsContext.Provider>

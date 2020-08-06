@@ -2,7 +2,7 @@ import React, { useMemo, useCallback } from 'react';
 import { DialogActions } from '@material-ui/core';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { trimString } from 'utils';
+import { removeSpaceAround } from 'utils';
 import BaseTextField from 'components/BaseTextField';
 import BaseModalForm from 'components/BaseModalForm';
 import useSocketIo from 'contexts/SocketIoContext';
@@ -22,7 +22,10 @@ interface ViewerFormValues {
 }
 
 const validationSchema = Yup.object().shape<ViewerFormValues>({
-  username: Yup.string().label('Username').required().transform(trimString),
+  username: Yup.string()
+    .label('Username')
+    .required()
+    .transform(removeSpaceAround),
   color: Yup.string().label('Color').required(),
 });
 
