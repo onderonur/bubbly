@@ -41,6 +41,7 @@
       }
     ],
     "@typescript-eslint/no-namespace": "off",
-    "@typescript-eslint/no-empty-function": "warn"
+    "@typescript-eslint/no-empty-function": "warn",
+    "import/prefer-default-export": "off"
   }
 }

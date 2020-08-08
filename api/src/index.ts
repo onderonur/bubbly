@@ -21,6 +21,7 @@ import notifications, { notify } from './notifications';
 import jwt from 'jsonwebtoken';
 import helmet from 'helmet';
 import router from './routes';
+import { errorHandler } from './middlewares';
 
 const { JWT_TOKEN_SECRET } = process.env;
 
@@ -67,6 +68,8 @@ if (!isDev) {
     return res.sendFile(path.join(buildPath, 'index.html'));
   });
 }
+
+app.use(errorHandler);
 
 // TODO: May have some way to delete users from this map.
 // If we delete a user when there are no connected sockets
