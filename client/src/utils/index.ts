@@ -1,6 +1,12 @@
 import { ID } from 'types';
 import dayjs from 'dayjs';
 
+// Proxying request by using package.json makes socket-io to fallback polling instead of using websockets.
+// And if we use "http-proxy-middleware", create-react-app's hot reload get broken.
+// To prevent these, we use hardcoded a apiURl.
+export const apiUrl =
+  process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : '';
+
 async function handleResponse(response: Response) {
   if (response.ok) {
     return await response.json();
@@ -20,7 +26,7 @@ async function handleResponse(response: Response) {
 }
 
 export const api = {
-  get: (url: string) => fetch(url).then(handleResponse),
+  get: (url: string) => fetch(`${apiUrl}${url}`).then(handleResponse),
 };
 
 export const dateTimeFormats = {

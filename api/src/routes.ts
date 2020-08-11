@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { Topic } from './types';
+import { addCacheControl, hoursToSeconds } from './utils';
 
 const topics: Topic[] = [
   { title: 'Random Chat', roomId: 'random-chat' },
@@ -16,6 +17,7 @@ const topics: Topic[] = [
 const router = Router();
 
 router.get('/topics', (req, res) => {
+  addCacheControl(res, { maxAge: hoursToSeconds(24) });
   res.json(topics);
 });
 

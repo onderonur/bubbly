@@ -2,6 +2,7 @@ import { ID, SocketUser, Maybe } from './types';
 import FileType from 'file-type';
 import { nanoid } from 'nanoid';
 import notifications, { notify } from './notifications';
+import { Response } from 'express';
 
 export const isDev = process.env.NODE_ENV === 'development';
 
@@ -166,3 +167,21 @@ export const createNewUser = (socket: SocketIO.Socket): SocketUser => {
 };
 
 export const convertMBToByte = (mb: number): number => mb * 1024 * 1024;
+
+export const addCacheControl = (
+  res: Response,
+  options: { maxAge: number; isPrivate?: boolean }
+): void => {
+  const { maxAge, isPrivate } = options;
+  res.setHeader(
+    'Cache-Control',
+    `${isPrivate ? 'private' : 'public'}, max-age=${maxAge}`
+  );
+};
+
+const minutesInHour = 60;
+const secondsInMinute = 60;
+
+export const hoursToSeconds = (hours: number): number => {
+  return hours * minutesInHour * secondsInMinute;
+};

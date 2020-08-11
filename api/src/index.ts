@@ -22,6 +22,7 @@ import jwt from 'jsonwebtoken';
 import helmet from 'helmet';
 import router from './routes';
 import { errorHandler } from './middlewares';
+import cors from 'cors';
 
 const { JWT_TOKEN_SECRET } = process.env;
 
@@ -47,12 +48,19 @@ app.use(
   })
 );
 
+// Because we don't use proxy requests in development mode web client,
+// we set CORS here.
+if (isDev) {
+  app.use(cors());
+}
+
 app.use('/api', router);
 
 const maxMessageSizeInMB = 2;
 
 const http = createServer(app);
 const io = socketIo(http, {
+  path: '/socket-io',
   // Max size for a message
   // TODO: We need a way to handle exceptions
   // those caused by this option on the client side.
