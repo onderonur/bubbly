@@ -10,5 +10,6 @@ export function errorHandler(
   if (res.headersSent) {
     return next(err);
   }
-  return res.status(500).json({ message: err.message });
+  const statusCode = 500;
+  return res.status(statusCode).json({ statusCode, message: err.message });
 }
