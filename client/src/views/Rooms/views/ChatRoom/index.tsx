@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { useParams, Prompt } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Chat from './components/Chat';
 import RoomUserList from './components/RoomUserList';
 import {
@@ -43,7 +43,6 @@ const ChatRoomContent = React.memo(function ChatRoomContent() {
 
   return (
     <>
-      <Prompt when={true} message="Are you sure to leave this conversation?" />
       <Box flex={1} clone>
         <Grid
           container

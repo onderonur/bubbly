@@ -37,9 +37,9 @@ app.use(
   helmet({
     contentSecurityPolicy: {
       directives: {
-        // "unsafe-inline" is needed to server SPA.
+        // "unsafe-inline" is needed to serve SPA.
         defaultSrc: ["'self'", "'unsafe-inline'"],
-        // "unsafe-inline" is needed to server SPA.
+        // "unsafe-inline" is needed to serve SPA.
         scriptSrc: ["'self'", "'unsafe-inline'"],
         objectSrc: ["'none'"],
         upgradeInsecureRequests: [],
