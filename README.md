@@ -29,7 +29,7 @@ Live demo deployed on Heroku is **[here](https://bubbly-chat.herokuapp.com/)**.
 * Form Validations: [Yup](https://github.com/jquense/yup)
 * Illustrations: [unDraw](https://undraw.co/)
 * Linting: [ESLint](https://eslint.org/)
-* Code formatting: [Prettier](https://prettier.io/)
+* Code Formatting: [Prettier](https://prettier.io/)
 
 ### Development
 
