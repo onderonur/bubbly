@@ -96,21 +96,18 @@ const ChatItemList = React.memo<ChatItemListProps>(function ChatItemList({
     [isBackToBottomVisible]
   );
 
-  const handleScroll = useCallback<NonNullable<ScrollbarProps['onScroll']>>(
-    ((scrollState: ScrollState) => {
-      const { scrollHeight, scrollTop, clientHeight } = scrollState;
-      let diff = scrollHeight - (scrollTop + clientHeight);
-      diff = Math.round(diff);
-      const threshold = bottomScrollThreshold;
-      setIsBackToBottomVisible(diff >= threshold);
-    }) as never,
-    []
-  );
+  const handleScroll = useCallback((scrollState: ScrollState) => {
+    const { scrollHeight, scrollTop, clientHeight } = scrollState;
+    let diff = scrollHeight - (scrollTop + clientHeight);
+    diff = Math.round(diff);
+    const threshold = bottomScrollThreshold;
+    setIsBackToBottomVisible(diff >= threshold);
+  }, []);
 
   return (
     <StyledScrollBar
       ref={scrollBarRef}
-      onScroll={handleScroll}
+      onScroll={handleScroll as never}
       wrapperProps={scrollBarWrapperProps}
     >
       <Box padding={1} clone>

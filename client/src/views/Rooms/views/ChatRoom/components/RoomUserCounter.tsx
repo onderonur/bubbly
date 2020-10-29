@@ -3,27 +3,27 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import { useRoomUsers } from '../contexts/RoomUsersContext';
 import { Typography, IconButton } from '@material-ui/core';
 
-interface RoomUserCounter {
+interface RoomUserCounterProps {
   onClick?: VoidFunction;
 }
 
-const RoomUserCounter = React.memo<RoomUserCounter>(function RoomUserCounter({
-  onClick,
-}) {
-  const { roomUsers } = useRoomUsers();
+const RoomUserCounter = React.memo<RoomUserCounterProps>(
+  function RoomUserCounter({ onClick }) {
+    const { roomUsers } = useRoomUsers();
 
-  const content = (
-    <Typography component="span" color="primary" variant="body2">
-      <VisibilityIcon />
-      {roomUsers.length}
-    </Typography>
-  );
+    const content = (
+      <Typography component="span" color="primary" variant="body2">
+        <VisibilityIcon />
+        {roomUsers.length}
+      </Typography>
+    );
 
-  if (!onClick) {
-    return content;
+    if (!onClick) {
+      return content;
+    }
+
+    return <IconButton onClick={onClick}>{content}</IconButton>;
   }
-
-  return <IconButton onClick={onClick}>{content}</IconButton>;
-});
+);
 
 export default RoomUserCounter;

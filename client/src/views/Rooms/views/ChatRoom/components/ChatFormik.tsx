@@ -30,7 +30,8 @@ const validationSchema = Yup.object().shape<ChatFormValues>({
     .test(
       'fileSize',
       `Max size should be ${maxFileSizeInMB} MB`,
-      (value: ChatFormValues['file']) => {
+      // TODO: "value" needs some type fix here.
+      (value) => {
         try {
           if (value) {
             validateFileSize(value);
@@ -44,7 +45,8 @@ const validationSchema = Yup.object().shape<ChatFormValues>({
     .test(
       'fileType',
       'Only image files are allowed',
-      (value: ChatFormValues['file']) => {
+      // TODO: "value" needs some type fix here.
+      (value) => {
         try {
           if (value) {
             validateFileType(value);

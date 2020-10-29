@@ -3,7 +3,6 @@ import React, {
   useState,
   useCallback,
   useContext,
-  PropsWithChildren,
   useMemo,
 } from 'react';
 import { SocketUser, Maybe } from 'types';

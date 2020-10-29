@@ -17,12 +17,12 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 import ShareLogo from './ShareLogo';
 import Stack from './Stack';
 
-interface ShareDialog {
+interface ShareDialogProps {
   isOpen: boolean;
   onClose: VoidFunction;
 }
 
-const ShareDialog = React.memo<ShareDialog>(function ShareDialog({
+const ShareDialog = React.memo<ShareDialogProps>(function ShareDialog({
   isOpen,
   onClose,
 }) {
