@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 import notifications, { notify } from './notifications';
 import { Response } from 'express';
 
-export const isDev = process.env.NODE_ENV === 'development';
+export const IS_DEV = process.env.NODE_ENV === 'development';
 
 export const getUserBySocketId = (
   appUsers: Map<string, SocketUser>,

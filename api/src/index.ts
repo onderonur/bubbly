@@ -6,7 +6,7 @@ import { nanoid } from 'nanoid';
 import path from 'path';
 import { ID, SocketUser, ChatMessage, Maybe, JwtTokenPayload } from './types';
 import {
-  isDev,
+  IS_DEV,
   getRoomUsers,
   trimSpaces,
   isImageFile,
@@ -50,7 +50,7 @@ app.use(
 
 // Because we don't use proxy requests in development mode web client,
 // we set CORS here.
-if (isDev) {
+if (IS_DEV) {
   app.use(cors());
 }
 
@@ -67,7 +67,7 @@ const io = socketIo(http, {
   maxHttpBufferSize: convertMBToByte(maxMessageSizeInMB),
 });
 
-if (!isDev) {
+if (!IS_DEV) {
   const relativeBuildPath = '../../client/build';
   const buildPath = path.join(__dirname, relativeBuildPath);
   app.use(express.static(buildPath));

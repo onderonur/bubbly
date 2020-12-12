@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 
 // Proxying request by using package.json makes socket-io to fallback polling instead of using websockets.
 // And if we use "http-proxy-middleware", create-react-app's hot reload get broken.
-// To prevent these, we use hardcoded a apiURl.
-export const apiUrl =
+// To prevent these, we use hardcoded a API_URL.
+export const API_URL =
   process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : '';
 
 async function handleResponse(response: Response) {
@@ -25,10 +25,10 @@ async function handleResponse(response: Response) {
 }
 
 export const api = {
-  get: (url: string) => fetch(`${apiUrl}${url}`).then(handleResponse),
+  get: (url: string) => fetch(`${API_URL}${url}`).then(handleResponse),
 };
 
-export const dateTimeFormats = {
+export const DATE_TIME_FORMATS = {
   dateTime: 'DD/MM/YYYY HH:mm',
   time: 'HH:mm',
 };
@@ -78,8 +78,8 @@ export function getToken() {
   return token;
 }
 
-export const maxFileSizeInMB = 1;
-export const supportedFileTypes = ['image/*'];
+export const MAX_FILE_SIZE_IN_MB = 1;
+export const SUPPORTED_FILE_TYPES = ['image/*'];
 
 function convertByteToMB(byte: number) {
   return byte / (1024 * 1024);
@@ -87,7 +87,7 @@ function convertByteToMB(byte: number) {
 
 export function validateFileType(file: File) {
   const fileTypePrefix = file.type.split('/')[0];
-  const isValid = supportedFileTypes.some((type) => {
+  const isValid = SUPPORTED_FILE_TYPES.some((type) => {
     const currentPrefix = type.split('/')[0];
     return fileTypePrefix === currentPrefix;
   });
@@ -97,7 +97,7 @@ export function validateFileType(file: File) {
 }
 
 export function validateFileSize(file: File) {
-  if (convertByteToMB(file.size) > maxFileSizeInMB) {
-    throw new Error(`Max file size should be ${maxFileSizeInMB} MB.`);
+  if (convertByteToMB(file.size) > MAX_FILE_SIZE_IN_MB) {
+    throw new Error(`Max file size should be ${MAX_FILE_SIZE_IN_MB} MB.`);
   }
 }

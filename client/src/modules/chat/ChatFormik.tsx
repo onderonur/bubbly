@@ -3,7 +3,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import {
   removeSpaceAround,
-  maxFileSizeInMB,
+  MAX_FILE_SIZE_IN_MB,
   validateFileType,
   validateFileSize,
 } from 'modules/shared/SharedUtils';
@@ -29,7 +29,7 @@ const validationSchema = Yup.object().shape<ChatFormValues>({
   file: Yup.mixed<ChatFormValues['file']>()
     .test(
       'fileSize',
-      `Max size should be ${maxFileSizeInMB} MB`,
+      `Max size should be ${MAX_FILE_SIZE_IN_MB} MB`,
       // TODO: "value" needs some type fix here.
       (value) => {
         try {

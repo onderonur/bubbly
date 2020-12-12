@@ -5,7 +5,7 @@ import { useFormikContext, useField } from 'formik';
 import { ChatFormValues } from './ChatTypes';
 import { useSnack } from 'modules/snackbar/BaseSnackbarContext';
 import {
-  supportedFileTypes,
+  SUPPORTED_FILE_TYPES,
   validateFileType,
   validateFileSize,
 } from 'modules/shared/SharedUtils';
@@ -41,7 +41,7 @@ const ImagePicker = React.memo<ImagePickerProps>(function ImagePicker({
   return (
     <div>
       <input
-        accept={supportedFileTypes.join(',')}
+        accept={SUPPORTED_FILE_TYPES.join(',')}
         id="icon-button-file"
         type="file"
         hidden={true}

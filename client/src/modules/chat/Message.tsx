@@ -18,7 +18,7 @@ import styled, { CSSProperties } from 'styled-components';
 import Linkify from 'react-linkify';
 import { Bold } from 'modules/shared/Text';
 import useIsMobile from 'modules/is-mobile/useIsMobile';
-import { dateTimeFormats, formatDateTime } from 'modules/shared/SharedUtils';
+import { DATE_TIME_FORMATS, formatDateTime } from 'modules/shared/SharedUtils';
 
 const maxWidth = '70%';
 const minWidthWithImage = '50%';
@@ -125,10 +125,10 @@ const Message = React.memo<MessageProps>(function Message({ message }) {
       </Bubble>
       <MessageInfo spacing={0.5} justifyContent="flex-end" alignItems="center">
         <Tooltip
-          title={formatDateTime(message.timestamp, dateTimeFormats.dateTime)}
+          title={formatDateTime(message.timestamp, DATE_TIME_FORMATS.dateTime)}
         >
           <Typography variant="caption">
-            {formatDateTime(message.timestamp, dateTimeFormats.time)}
+            {formatDateTime(message.timestamp, DATE_TIME_FORMATS.time)}
           </Typography>
         </Tooltip>
         {isOwnMessage && <StatusIcon fontSize="inherit" />}

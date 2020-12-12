@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import socketIoClient from 'socket.io-client';
-import { getToken, apiUrl } from 'modules/shared/SharedUtils';
+import { getToken, API_URL } from 'modules/shared/SharedUtils';
 import { Maybe } from 'modules/shared/SharedTypes';
 
 const SocketIoContext = React.createContext<
@@ -14,7 +14,7 @@ export function SocketIoProvider({ children }: SocketIoProviderProps) {
 
   useEffect(() => {
     function prepare() {
-      const socket = socketIoClient(apiUrl, {
+      const socket = socketIoClient(API_URL, {
         path: '/socket-io',
         query: { token: getToken() },
       });
