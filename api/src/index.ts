@@ -106,10 +106,11 @@ io.use((socket, next) => {
 
 io.on('connection', (socket) => {
   socket.on('who am i', (callback) => {
-    const token = jwt.sign({ id: socket.user.id }, JWT_TOKEN_SECRET, {
+    const socketUser = socket.user;
+    const token = jwt.sign({ id: socketUser.id }, JWT_TOKEN_SECRET, {
       expiresIn: '1 week',
     });
-    callback(socket.user, token);
+    callback(socketUser, token);
   });
 
   socket.on('create room', (callback) => {
@@ -118,6 +119,9 @@ io.on('connection', (socket) => {
   });
 
   socket.on('join room', async (roomId, callback) => {
+    if (!socket.user) {
+      return;
+    }
     await socket.join(roomId);
     const roomUsers = await io.getRoomUsers(roomId, socket);
     // Send current room users to sender
@@ -171,8 +175,8 @@ io.on('connection', (socket) => {
   socket.on(
     'edit user',
     (input: Pick<SocketUser, 'username' | 'color'>, callback) => {
-      const userRoomIds = io.getUserRoomIds(socket);
       const socketUser = socket.user;
+      const userRoomIds = io.getUserRoomIds(socket);
       const newUsername = trimSpaces(input.username);
       if (newUsername) {
         const oldUsername = socketUser.username;
@@ -211,9 +215,7 @@ io.on('connection', (socket) => {
 
       io.updateSocketUser(socketUser);
       callback(socketUser);
-      userRoomIds.forEach((roomId) => {
-        io.to(roomId).emit('edit user', socketUser);
-      });
+      io.to(userRoomIds).emit('edit user', socketUser);
     },
   );
 
@@ -232,7 +234,7 @@ io.on('connection', (socket) => {
     // eslint-disable-next-line no-param-reassign
     socket.user.removeSocket(socket);
 
-    // TODO: Bunu bi kontrol etmek lazım eskisi alttaki gibiydi
+    // TODO: Bunu bi kontrol etmek lazım eskisi alttaki gibiydi. Gereksiz olabilir.
     // io.socketUsers.set(socket.user.id, socket.user);
     io.updateSocketUser(socket.user);
   });

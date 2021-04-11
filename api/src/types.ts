@@ -1,3 +1,5 @@
+import { SocketUser } from './SocketUser';
+
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
@@ -5,6 +7,12 @@ declare global {
       JWT_TOKEN_SECRET: string;
       PORT: number;
     }
+  }
+}
+
+declare module 'socket.io' {
+  class Socket {
+    user: SocketUser;
   }
 }
 

@@ -15,6 +15,7 @@ export class CustomSocketIoServer extends socketIo.Server {
     this.socketUsers.set(socketUser.id, socketUser);
   };
 
+  // TODO: Bu gereksiz olabilir. Kullanıldıkları yerlere bi bakmak lazım.
   updateSocketUser = (socketUser: SocketUser): void => {
     this.socketUsers.set(socketUser.id, socketUser);
   };

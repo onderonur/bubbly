@@ -37,8 +37,9 @@ export class ChatMessage {
     const { socket, body, file } = args;
     const trimmedBody = trimSpaces(body ?? '');
     if (!trimmedBody && !file) {
-      throw new Error();
+      throw new Error('At least a message body or a file is required.');
     }
+
     // "file" can be a Buffer or base64 string.
     // base64 string is used for react-native app here.
     let inputFile = null;
@@ -47,12 +48,14 @@ export class ChatMessage {
     } else if (typeof file === 'string') {
       inputFile = Buffer.from(file, 'base64');
     }
+
     if (inputFile) {
       const isImage = await isImageFile(inputFile);
       if (!isImage) {
-        throw new Error();
+        throw new Error('File is not an image.');
       }
     }
+
     const message = new ChatMessage({
       socket,
       body: trimmedBody,
