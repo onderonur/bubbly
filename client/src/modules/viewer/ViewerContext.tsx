@@ -6,7 +6,10 @@ import React, {
   useMemo,
 } from 'react';
 import { SocketUser, Maybe } from 'modules/shared/SharedTypes';
-import useSocketIo, { useSocketListener } from '../socket-io/SocketIoContext';
+import useSocketIo, {
+  useSocketListener,
+  useSocketManagerListener,
+} from '../socket-io/SocketIoContext';
 import { storeToken } from 'modules/shared/SharedUtils';
 import ViewerFormModal from './ViewerFormModal';
 import { useDialogState } from 'modules/base-dialog/BaseDialogHooks';
@@ -32,20 +35,20 @@ type ViewerProviderProps = React.PropsWithChildren<{}>;
 function ViewerProvider({ children }: ViewerProviderProps) {
   const [viewer, setViewer] = useState<Maybe<SocketUser>>(null);
 
-  const io = useSocketIo();
+  const socket = useSocketIo();
 
   const getViewerInfo = useCallback(() => {
-    io?.emit('who am i', (socketUser: SocketUser, token: string) => {
+    socket?.emit('who am i', (socketUser: SocketUser, token: string) => {
       storeToken(token);
       setViewer(socketUser);
     });
-  }, [io]);
+  }, [socket]);
 
   useEffect(() => {
     getViewerInfo();
   }, [getViewerInfo]);
 
-  useSocketListener('reconnect', getViewerInfo);
+  useSocketManagerListener('reconnect', getViewerInfo);
 
   const handleViewerChange = useCallback(
     (socketUser: SocketUser) => {

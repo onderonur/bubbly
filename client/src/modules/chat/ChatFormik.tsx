@@ -74,7 +74,7 @@ export type ChatFormikProps = React.PropsWithChildren<{
 function ChatFormik({ roomId, children }: ChatFormikProps) {
   const { setMessages, receiveMessage } = useChatMessages();
 
-  const io = useSocketIo();
+  const socket = useSocketIo();
   const { viewer } = useViewer();
 
   const handleSubmit = useCallback<OnSubmitFn<ChatFormValues>>(
@@ -92,18 +92,23 @@ function ChatFormik({ roomId, children }: ChatFormikProps) {
         isTemporary: true,
       };
       receiveMessage(tempMessage);
-      io?.emit('chat message', roomId, tempMessage, (message: ChatMessage) => {
-        setMessages((currentMessages) =>
-          currentMessages.map((current) =>
-            current.id === tempMessage.id ? message : current,
-          ),
-        );
-      });
+      socket?.emit(
+        'chat message',
+        roomId,
+        tempMessage,
+        (message: ChatMessage) => {
+          setMessages((currentMessages) =>
+            currentMessages.map((current) =>
+              current.id === tempMessage.id ? message : current,
+            ),
+          );
+        },
+      );
       formikHelpers.setSubmitting(false);
       formikHelpers.resetForm();
       formikHelpers.validateForm();
     },
-    [io, receiveMessage, roomId, setMessages, viewer],
+    [socket, receiveMessage, roomId, setMessages, viewer],
   );
 
   return (

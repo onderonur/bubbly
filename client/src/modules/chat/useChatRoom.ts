@@ -1,6 +1,6 @@
 import { ID, SocketUser } from 'modules/shared/SharedTypes';
 import useSocketIo, {
-  useSocketListener,
+  useSocketManagerListener,
 } from 'modules/socket-io/SocketIoContext';
 import { useCallback, useEffect } from 'react';
 import { useRoomUsers } from 'modules/room-users/RoomUsersContext';
@@ -8,26 +8,26 @@ import { useRoomUsers } from 'modules/room-users/RoomUsersContext';
 function useChatRoom(roomId: ID) {
   const { setRoomUsers } = useRoomUsers();
 
-  const io = useSocketIo();
+  const socket = useSocketIo();
 
   const joinRoom = useCallback(() => {
-    io?.emit('join room', roomId, (users: SocketUser[]) => {
+    socket?.emit('join room', roomId, (users: SocketUser[]) => {
       setRoomUsers(users);
     });
-  }, [io, roomId, setRoomUsers]);
+  }, [socket, roomId, setRoomUsers]);
 
   useEffect(() => {
     joinRoom();
     return () => {
-      io?.emit('leave room', roomId);
+      socket?.emit('leave room', roomId);
     };
-  }, [io, joinRoom, roomId]);
+  }, [socket, joinRoom, roomId]);
 
   const handleReconnect = useCallback(() => {
     joinRoom();
   }, [joinRoom]);
 
-  useSocketListener('reconnect', handleReconnect);
+  useSocketManagerListener('reconnect', handleReconnect);
 }
 
 export default useChatRoom;

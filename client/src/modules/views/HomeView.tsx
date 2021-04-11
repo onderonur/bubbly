@@ -31,7 +31,7 @@ const StyledAppLogo = styled(AppLogo)<StyledAppLogoProps>`
 `;
 
 const HomeView = React.memo(function Home() {
-  const io = useSocketIo();
+  const socket = useSocketIo();
   const history = useHistory();
   const { success } = useSnack();
 
@@ -39,12 +39,12 @@ const HomeView = React.memo(function Home() {
 
   const createRoom = useCallback(() => {
     setLoading(true);
-    io?.emit('create room', (roomId: ID) => {
+    socket?.emit('create room', (roomId: ID) => {
       setLoading(false);
       success('Welcome to your chat room!');
       history.push(routes.rooms.routes.chatRoom.path({ roomId }));
     });
-  }, [history, io, success]);
+  }, [history, socket, success]);
 
   const theme = useTheme();
 

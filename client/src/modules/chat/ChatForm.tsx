@@ -20,7 +20,7 @@ export interface ChatFormProps {
 }
 
 const ChatForm = React.memo<ChatFormProps>(function ChatForm({ roomId }) {
-  const io = useSocketIo();
+  const socket = useSocketIo();
   const { viewer } = useViewer();
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const isWindowFocused = useWindowFocus();
@@ -37,13 +37,13 @@ const ChatForm = React.memo<ChatFormProps>(function ChatForm({ roomId }) {
   useEffect(() => {
     if (viewer && isTyping !== prevIsTyping) {
       if (isTyping) {
-        io?.emit('started typing', roomId, viewer.id);
+        socket?.emit('started typing', roomId, viewer.id);
       } else {
-        io?.emit('finished typing', roomId, viewer.id);
+        socket?.emit('finished typing', roomId, viewer.id);
       }
     }
   }, [
-    io,
+    socket,
     isTyping,
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     prevIsTyping,

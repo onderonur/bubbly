@@ -37,19 +37,19 @@ const ViewerFormModal = React.memo(function ViewerFormModal() {
     [viewer],
   );
 
-  const io = useSocketIo();
+  const socket = useSocketIo();
 
   const handleSubmit = useCallback<OnSubmitFn<ViewerFormValues>>(
     (values, formikHelpers) => {
       if (!viewer) {
         return;
       }
-      io?.emit('edit user', values, () => {
+      socket?.emit('edit user', values, () => {
         formikHelpers.setSubmitting(false);
         finishEditing();
       });
     },
-    [finishEditing, io, viewer],
+    [finishEditing, socket, viewer],
   );
 
   return (

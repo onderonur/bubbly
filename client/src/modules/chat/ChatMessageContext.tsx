@@ -59,7 +59,7 @@ function ChatMessageProvider({ roomId, children }: ChatMessageProviderProps) {
       }
       // TODO: May add this feature later.
       // if (viewer) {
-      //   io?.emit('received message', roomId, message.id, viewer.id);
+      //   socket?.emit('received message', roomId, message.id, viewer.id);
       // }
     },
     [isFocused, isSoundOn],

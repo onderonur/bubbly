@@ -33,8 +33,8 @@ export function SocketIoProvider({ children }: SocketIoProviderProps) {
 }
 
 function useSocketIo() {
-  const io = useContext(SocketIoContext);
-  return io;
+  const socket = useContext(SocketIoContext);
+  return socket;
 }
 
 export function useSocketListener(
@@ -42,14 +42,33 @@ export function useSocketListener(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fn: ReservedOrUserListener<any, any, any>,
 ) {
-  const io = useSocketIo();
+  const socket = useSocketIo();
 
   useEffect(() => {
-    io?.on(event, fn);
+    socket?.on(event, fn);
     return () => {
-      io?.off(event, fn);
+      socket?.off(event, fn);
     };
-  }, [event, fn, io]);
+  }, [event, fn, socket]);
+}
+
+// Please note that since Socket.IO v3, the Socket instance does not emit any event related
+// to the reconnection logic anymore. You can listen to the events on the Manager instance directly:
+// https://socket.io/docs/v3/client-socket-instance/
+export function useSocketManagerListener(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  event: any,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  fn: ReservedOrUserListener<any, any, any>,
+) {
+  const socket = useSocketIo();
+
+  useEffect(() => {
+    socket?.io.on(event, fn);
+    return () => {
+      socket?.io.off(event, fn);
+    };
+  }, [event, fn, socket]);
 }
 
 export default useSocketIo;
