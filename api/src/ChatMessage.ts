@@ -4,6 +4,11 @@ import { isImageFile, trimSpaces } from './utils';
 import socketIo from 'socket.io';
 import { SocketUser } from './SocketUser';
 
+export interface ChatMessageInput {
+  body: Maybe<string>;
+  file: Maybe<Buffer | string>;
+}
+
 export class ChatMessage {
   id: ID;
   author: SocketUser;
@@ -29,11 +34,9 @@ export class ChatMessage {
 
   // Because that we can't make the constructor async,
   // we create ChatMessage instances with this static method.
-  static createChatMessage = async (args: {
-    socket: socketIo.Socket;
-    body: Maybe<string>;
-    file: Maybe<Buffer | string>;
-  }): Promise<ChatMessage> => {
+  static createChatMessage = async (
+    args: ChatMessageInput & { socket: socketIo.Socket },
+  ): Promise<ChatMessage> => {
     const { socket, body, file } = args;
     const trimmedBody = trimSpaces(body ?? '');
     if (!trimmedBody && !file) {

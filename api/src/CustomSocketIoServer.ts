@@ -139,7 +139,11 @@ export class CustomSocketIoServer extends socketIo.Server {
     // But user's other socket may still be in the room.
     // So, we check if there are any remaining sockets of user
     // in the room or not.
-    if (await this.didUserLeaveTheRoomCompletely(roomId, socket)) {
+    const didUserLeaveTheRoomCompletely = await this.didUserLeaveTheRoomCompletely(
+      roomId,
+      socket,
+    );
+    if (didUserLeaveTheRoomCompletely) {
       socket.to(roomId).emit('left the room', socketUser);
       notify({
         socket,

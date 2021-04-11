@@ -13,7 +13,7 @@ import { errorHandler } from './middlewares';
 import cors from 'cors';
 import { SocketUser } from './SocketUser';
 import { CustomSocketIoServer } from './CustomSocketIoServer';
-import { ChatMessage } from './ChatMessage';
+import { ChatMessage, ChatMessageInput } from './ChatMessage';
 
 const { JWT_TOKEN_SECRET } = process.env;
 
@@ -119,15 +119,13 @@ io.on('connection', (socket) => {
   });
 
   socket.on('join room', async (roomId, callback) => {
-    if (!socket.user) {
-      return;
-    }
     await socket.join(roomId);
     const roomUsers = await io.getRoomUsers(roomId, socket);
     // Send current room users to sender
     callback(roomUsers);
-    if (!(await io.isUserAlreadyInRoom(roomId, socket))) {
-      // Send the newly joined user to other room users (except sender)
+    const isUserAlreadyInRoom = await io.isUserAlreadyInRoom(roomId, socket);
+    if (!isUserAlreadyInRoom) {
+      // Send the newly joined user info to other room users (except sender)
       socket.to(roomId).emit('joined to room', socket.user);
       notify({
         socket,
@@ -144,11 +142,7 @@ io.on('connection', (socket) => {
 
   socket.on(
     'chat message',
-    async (
-      roomId,
-      { body, file }: { body: Maybe<string>; file: Maybe<Buffer | string> },
-      callback,
-    ) => {
+    async (roomId, { body, file }: ChatMessageInput, callback) => {
       const newMessage = await ChatMessage.createChatMessage({
         socket,
         body,
