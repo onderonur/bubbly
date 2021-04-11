@@ -19,7 +19,6 @@
     "@types/react-helmet": "^6.1.1",
     "@types/react-linkify": "^1.0.0",
     "@types/react-router-dom": "^5.1.7",
-    "@types/socket.io-client": "^1.4.36",
     "@types/styled-components": "^5.1.9",
     "dayjs": "^1.10.4",
     "emoji-mart": "^3.0.1",
