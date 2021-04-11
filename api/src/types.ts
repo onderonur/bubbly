@@ -15,8 +15,3 @@ export type Maybe<T> = T | null | undefined;
 export interface JwtTokenPayload {
   id: ID;
 }
-
-export interface Topic {
-  title: string;
-  roomId: ID;
-}

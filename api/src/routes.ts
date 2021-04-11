@@ -1,6 +1,11 @@
 import { Router } from 'express';
-import { Topic } from './types';
+import { ID } from './types';
 import { addCacheControl, hoursToSeconds } from './utils';
+
+interface Topic {
+  roomId: ID;
+  title: string;
+}
 
 const topics: Topic[] = [
   { title: 'Random Chat', roomId: 'random-chat' },
