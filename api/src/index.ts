@@ -8,9 +8,9 @@ import { IS_DEV, trimSpaces, convertMBToByte } from './utils';
 import notifications, { notify } from './notifications';
 import jwt from 'jsonwebtoken';
 import helmet from 'helmet';
+import cors from 'cors';
 import router from './routes';
 import { errorHandler } from './middlewares';
-import cors from 'cors';
 import { SocketUser } from './SocketUser';
 import { CustomSocketIoServer } from './CustomSocketIoServer';
 import { ChatMessage, ChatMessageInput } from './ChatMessage';
@@ -39,10 +39,12 @@ app.use(
   }),
 );
 
+const corsOptions = { origin: 'http://localhost:3000' };
+
 // Because we don't use proxy requests in development mode web client,
 // we set CORS here.
 if (IS_DEV) {
-  app.use(cors());
+  app.use(cors(corsOptions));
 }
 
 app.use('/api', router);
@@ -56,11 +58,7 @@ const io = new CustomSocketIoServer(httpServer, {
   // TODO: We need a way to handle exceptions
   // those caused by this option on the client side.
   maxHttpBufferSize: convertMBToByte(maxMessageSizeInMB),
-  cors: IS_DEV
-    ? {
-        origin: 'http://localhost:3000',
-      }
-    : undefined,
+  cors: IS_DEV ? corsOptions : undefined,
 });
 
 // To statically serve SPA client
@@ -207,7 +205,6 @@ io.on('connection', (socket) => {
         }
       }
 
-      io.updateSocketUser(socketUser);
       callback(socketUser);
       io.to(userRoomIds).emit('edit user', socketUser);
     },
@@ -227,10 +224,6 @@ io.on('connection', (socket) => {
     // Remove the leaving socket from users socketId list.
     // eslint-disable-next-line no-param-reassign
     socket.user.removeSocket(socket);
-
-    // TODO: Bunu bi kontrol etmek lazım eskisi alttaki gibiydi. Gereksiz olabilir.
-    // io.socketUsers.set(socket.user.id, socket.user);
-    io.updateSocketUser(socket.user);
   });
 });
 
