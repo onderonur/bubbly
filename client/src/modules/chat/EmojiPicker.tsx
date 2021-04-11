@@ -44,7 +44,7 @@ const EmojiPicker = React.memo<EmojiPickerProps>(function EmojiPicker(props) {
         const textAfterCursor = value.substring(cursorEnd, value.length);
         setFieldValue(
           name,
-          `${textBeforeCursor}${emoji.native}${textAfterCursor}`
+          `${textBeforeCursor}${emoji.native}${textAfterCursor}`,
         );
       } else {
         setFieldValue(name, `${value}${emoji.native}`);
@@ -54,7 +54,7 @@ const EmojiPicker = React.memo<EmojiPickerProps>(function EmojiPicker(props) {
       // repeatedly opening/closing the popover.
       closePopper();
     },
-    [closePopper, name, setFieldValue, targetInput, value]
+    [closePopper, name, setFieldValue, targetInput, value],
   );
 
   const theme = useTheme();

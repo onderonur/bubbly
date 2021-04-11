@@ -28,11 +28,14 @@ const ShareDialog = React.memo<ShareDialogProps>(function ShareDialog({
 }) {
   const [isCopied, setIsCopied] = useState(false);
 
-  const timerRef = useRef<number>();
+  const timerRef = useRef<NodeJS.Timeout>();
 
   const handleCopy = useCallback(() => {
     setIsCopied(true);
-    clearTimeout(timerRef.current);
+    const timer = timerRef.current;
+    if (timer) {
+      clearTimeout(timer);
+    }
     timerRef.current = setTimeout(() => {
       setIsCopied(false);
     }, 1000);

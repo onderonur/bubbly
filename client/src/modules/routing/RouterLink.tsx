@@ -9,7 +9,7 @@ const StyledLink = styled(Link)`
 const RouterLink = React.forwardRef<HTMLAnchorElement, LinkProps>(
   (props, ref) => {
     return <StyledLink ref={ref} {...props} />;
-  }
+  },
 );
 
 export default RouterLink;

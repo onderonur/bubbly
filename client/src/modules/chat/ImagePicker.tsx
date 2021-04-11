@@ -1,14 +1,14 @@
 import React, { useCallback } from 'react';
 import { IconButton } from '@material-ui/core';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
-import { useFormikContext, useField } from 'formik';
-import { ChatFormValues } from './ChatTypes';
+import { useField } from 'formik';
 import { useSnack } from 'modules/snackbar/BaseSnackbarContext';
 import {
   SUPPORTED_FILE_TYPES,
   validateFileType,
   validateFileSize,
 } from 'modules/shared/SharedUtils';
+import { ChatFormValues, useChatFormikContext } from './ChatFormik';
 
 interface ImagePickerProps {
   name: string;
@@ -18,7 +18,7 @@ const ImagePicker = React.memo<ImagePickerProps>(function ImagePicker({
   name,
 }) {
   const [field] = useField<ChatFormValues>(name);
-  const { setFieldValue } = useFormikContext<ChatFormValues>();
+  const { setFieldValue } = useChatFormikContext();
 
   const { error } = useSnack();
 
@@ -35,7 +35,7 @@ const ImagePicker = React.memo<ImagePickerProps>(function ImagePicker({
         }
       }
     },
-    [error, name, setFieldValue]
+    [error, name, setFieldValue],
   );
 
   return (

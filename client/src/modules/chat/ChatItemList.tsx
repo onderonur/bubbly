@@ -46,7 +46,7 @@ const ChatItemList = React.memo<ChatItemListProps>(function ChatItemList({
   const fullList: (ChatMessage | ChatNotification)[] = useMemo(
     () =>
       [...messages, ...notifications].sort((a, b) => a.timestamp - b.timestamp),
-    [messages, notifications]
+    [messages, notifications],
   );
 
   const [isBackToBottomVisible, setIsBackToBottomVisible] = useState(false);
@@ -93,7 +93,7 @@ const ChatItemList = React.memo<ChatItemListProps>(function ChatItemList({
         );
       },
     }),
-    [isBackToBottomVisible]
+    [isBackToBottomVisible],
   );
 
   const handleScroll = useCallback((scrollState: ScrollState) => {

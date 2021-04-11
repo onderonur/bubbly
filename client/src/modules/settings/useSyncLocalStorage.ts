@@ -2,17 +2,17 @@ import { useState, useEffect } from 'react';
 
 type UseSyncLocalStorageResult<T> = [
   T,
-  React.Dispatch<React.SetStateAction<T>>
+  React.Dispatch<React.SetStateAction<T>>,
 ];
 
 function useSyncLocalStorage<T>(
   key: string,
-  defaultValue: T
+  defaultValue: T,
 ): UseSyncLocalStorageResult<T> {
   const [value, setValue] = useState(
     localStorage.getItem(key)
       ? JSON.parse(localStorage.getItem(key)!)
-      : defaultValue
+      : defaultValue,
   );
 
   useEffect(() => {

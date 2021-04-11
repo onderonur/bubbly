@@ -25,7 +25,7 @@ interface ChatMessageContextValue {
 }
 
 const ChatMessageContext = React.createContext<ChatMessageContextValue>(
-  {} as ChatMessageContextValue
+  {} as ChatMessageContextValue,
 );
 
 export function useChatMessages() {
@@ -62,7 +62,7 @@ function ChatMessageProvider({ roomId, children }: ChatMessageProviderProps) {
       //   io?.emit('received message', roomId, message.id, viewer.id);
       // }
     },
-    [isFocused, isSoundOn]
+    [isFocused, isSoundOn],
   );
 
   useSocketListener('chat message', receiveMessage);
@@ -75,7 +75,7 @@ function ChatMessageProvider({ roomId, children }: ChatMessageProviderProps) {
             message.author = editedUser;
           }
         });
-      })
+      }),
     );
   }, []);
 
@@ -83,7 +83,7 @@ function ChatMessageProvider({ roomId, children }: ChatMessageProviderProps) {
 
   const contextValue = useMemo(
     () => ({ messages, setMessages, receiveMessage }),
-    [messages, receiveMessage]
+    [messages, receiveMessage],
   );
 
   return (

@@ -9,11 +9,6 @@ export interface ChatMessage {
   isTemporary?: boolean;
 }
 
-export interface ChatFormValues {
-  body: Maybe<string>;
-  file: Maybe<File>;
-}
-
 export interface ChatNotification {
   id: ID;
   body: string;

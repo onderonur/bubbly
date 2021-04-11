@@ -34,7 +34,7 @@ function BaseDialogTitle({ children, extra, ...rest }: BaseDialogTitleProps) {
     (e) => {
       onClose?.(e, 'escapeKeyDown');
     },
-    [onClose]
+    [onClose],
   );
 
   return (

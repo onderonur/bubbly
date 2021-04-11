@@ -14,7 +14,7 @@ interface SettingsContextValue {
 }
 
 const SettingsContext = React.createContext<SettingsContextValue>(
-  {} as SettingsContextValue
+  {} as SettingsContextValue,
 );
 
 export function useSettings() {
@@ -30,7 +30,7 @@ function SettingsProvider({ children }: SettingsProviderProps) {
     {
       isSoundOn: true,
       themeType: 'light',
-    }
+    },
   );
 
   const contextValue = useMemo(
@@ -49,7 +49,7 @@ function SettingsProvider({ children }: SettingsProviderProps) {
           return { ...current, themeType: 'light' };
         }),
     }),
-    [setSettings, settings]
+    [setSettings, settings],
   );
 
   return (

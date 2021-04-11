@@ -3,7 +3,7 @@ A dynamic chat application created w/ Socket.IO, React, TypeScript and Express, 
 Live demo deployed on Heroku is **[here](https://bubbly-chat.herokuapp.com/)**.
 
 <p align="center">
-  <img src="/assets/home-page.png" alt="Bubbly Logo"/>
+  <img src="/screenshots/home-page.png" alt="Bubbly Logo"/>
 </p>
 
 ### Features

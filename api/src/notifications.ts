@@ -1,4 +1,6 @@
-import { SocketUser, ID } from './types';
+import { ID } from './types';
+import socketIo from 'socket.io';
+import { SocketUser } from './SocketUser';
 
 const notifications = {
   joinedToRoom: (user: SocketUser): string =>
@@ -12,7 +14,7 @@ const notifications = {
 };
 
 interface NotifyArgs {
-  socket: SocketIO.Socket;
+  socket: socketIo.Socket;
   roomId: ID;
   notification: string;
 }

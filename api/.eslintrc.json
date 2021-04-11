@@ -8,8 +8,7 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
-    "prettier/@typescript-eslint"
+    "plugin:prettier/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -29,6 +28,7 @@
     "no-unused-vars": "warn",
     "spaced-comment": "warn",
     "prefer-destructuring": "warn",
+    "lines-between-class-members": "off",
     "no-empty": "off",
     "prefer-const": "warn",
     "import/order": "off",

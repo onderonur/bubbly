@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Formik } from 'formik';
+import { Formik, useFormikContext } from 'formik';
 import * as Yup from 'yup';
 import {
   removeSpaceAround,
@@ -7,26 +7,25 @@ import {
   validateFileType,
   validateFileSize,
 } from 'modules/shared/SharedUtils';
-import { ChatFormValues, ChatMessage } from './ChatTypes';
-import { ID, OnSubmitFn } from 'modules/shared/SharedTypes';
+import { ChatMessage } from './ChatTypes';
+import { ID, Maybe, OnSubmitFn } from 'modules/shared/SharedTypes';
 import useSocketIo from 'modules/socket-io/SocketIoContext';
 import { useViewer } from 'modules/viewer/ViewerContext';
 import { nanoid } from 'nanoid';
 import { useChatMessages } from './ChatMessageContext';
 
-const initialValues: ChatFormValues = { body: '', file: null };
-
-const validationSchema = Yup.object().shape<ChatFormValues>({
+const validationSchema = Yup.object({
   body: Yup.string()
     .label('Message')
     // A message body is required, when there is no file selected.
     .when('file', {
-      is: (file) => !file,
+      is: (file: Maybe<File>) => !file,
       then: Yup.string().required(),
     })
-    .transform(removeSpaceAround),
+    .transform(removeSpaceAround)
+    .default(''),
   // https://github.com/formium/formik/issues/926#issuecomment-430906502
-  file: Yup.mixed<ChatFormValues['file']>()
+  file: Yup.mixed<Maybe<File>>()
     .test(
       'fileSize',
       `Max size should be ${MAX_FILE_SIZE_IN_MB} MB`,
@@ -40,7 +39,7 @@ const validationSchema = Yup.object().shape<ChatFormValues>({
         } catch {
           return false;
         }
-      }
+      },
     )
     .test(
       'fileType',
@@ -55,9 +54,18 @@ const validationSchema = Yup.object().shape<ChatFormValues>({
         } catch {
           return false;
         }
-      }
-    ),
+      },
+    )
+    .default(null),
 });
+
+export type ChatFormValues = Yup.TypeOf<typeof validationSchema>;
+
+export function useChatFormikContext() {
+  return useFormikContext<ChatFormValues>();
+}
+
+const initialValues: ChatFormValues = validationSchema.getDefault();
 
 export type ChatFormikProps = React.PropsWithChildren<{
   roomId: ID;
@@ -87,15 +95,15 @@ function ChatFormik({ roomId, children }: ChatFormikProps) {
       io?.emit('chat message', roomId, tempMessage, (message: ChatMessage) => {
         setMessages((currentMessages) =>
           currentMessages.map((current) =>
-            current.id === tempMessage.id ? message : current
-          )
+            current.id === tempMessage.id ? message : current,
+          ),
         );
       });
       formikHelpers.setSubmitting(false);
       formikHelpers.resetForm();
       formikHelpers.validateForm();
     },
-    [io, receiveMessage, roomId, setMessages, viewer]
+    [io, receiveMessage, roomId, setMessages, viewer],
   );
 
   return (

@@ -6,7 +6,7 @@ interface DialogContextValue {
 }
 
 const DialogContext = React.createContext<DialogContextValue>(
-  {} as DialogContextValue
+  {} as DialogContextValue,
 );
 
 export function useDialogContext() {

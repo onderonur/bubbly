@@ -19,7 +19,7 @@ interface ViewerContextValue {
 }
 
 const ViewerContext = React.createContext<ViewerContextValue>(
-  {} as ViewerContextValue
+  {} as ViewerContextValue,
 );
 
 export function useViewer() {
@@ -53,7 +53,7 @@ function ViewerProvider({ children }: ViewerProviderProps) {
         setViewer(socketUser);
       }
     },
-    [viewer]
+    [viewer],
   );
 
   useSocketListener('edit user', handleViewerChange);
@@ -67,7 +67,7 @@ function ViewerProvider({ children }: ViewerProviderProps) {
       startEditing: openDialog,
       finishEditing: closeDialog,
     }),
-    [closeDialog, isOpen, openDialog, viewer]
+    [closeDialog, isOpen, openDialog, viewer],
   );
 
   return (

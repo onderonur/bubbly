@@ -30,7 +30,7 @@ const ShareButtons = React.memo<ShareButtonsProps>(function ShareButtons({
     () => ({
       url: url || '',
     }),
-    [url]
+    [url],
   );
 
   const shareIconProps = useMemo(() => ({ size: 50, round: true }), []);

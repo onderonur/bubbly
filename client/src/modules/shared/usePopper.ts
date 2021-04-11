@@ -8,7 +8,7 @@ function usePopover() {
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       setAnchorEl(e.currentTarget);
     },
-    []
+    [],
   );
 
   const closePopper = useCallback(() => {
@@ -21,7 +21,7 @@ function usePopover() {
       openPopper,
       closePopper,
     }),
-    [anchorEl, closePopper, openPopper]
+    [anchorEl, closePopper, openPopper],
   );
 
   return result;

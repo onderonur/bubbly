@@ -22,7 +22,7 @@ function useChatNotifications(roomId: ID) {
           body: notification,
           timestamp: Date.now(),
         });
-      })
+      }),
     );
   }, []);
 

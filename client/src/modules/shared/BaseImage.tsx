@@ -49,7 +49,7 @@ const BaseImage = React.memo<BaseImageProps>(function BaseImage({
 
       setIsImgLoaded(true);
     },
-    [isOriginalAspectRatio]
+    [isOriginalAspectRatio],
   );
 
   const theme = useTheme();

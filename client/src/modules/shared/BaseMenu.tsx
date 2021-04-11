@@ -9,7 +9,7 @@ interface BaseMenuContextValue {
 }
 
 const BaseMenuContext = React.createContext<BaseMenuContextValue>(
-  {} as BaseMenuContextValue
+  {} as BaseMenuContextValue,
 );
 
 function useBaseMenuContext() {
@@ -84,7 +84,7 @@ export function BaseMenuItem<C extends React.ElementType>({
       onClick?.(e);
       closeMenu?.(e, 'backdropClick');
     },
-    [closeMenu, onClick]
+    [closeMenu, onClick],
   );
 
   return <MenuItem {...rest} onClick={handleClick} />;

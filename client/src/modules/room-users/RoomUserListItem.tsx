@@ -36,7 +36,7 @@ const RoomUserListItem = React.memo<RoomUserListItemProps>(
         )}
       </ListItem>
     );
-  }
+  },
 );
 
 export default RoomUserListItem;

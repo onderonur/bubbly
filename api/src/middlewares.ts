@@ -4,7 +4,7 @@ export function errorHandler(
   err: Error,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): any {
   if (res.headersSent) {

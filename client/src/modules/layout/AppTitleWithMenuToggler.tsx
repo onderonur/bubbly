@@ -40,7 +40,7 @@ const AppTitleWithMenuToggler = React.memo<AppTitleWithMenuTogglerProps>(
         )}
       </Stack>
     );
-  }
+  },
 );
 
 export default AppTitleWithMenuToggler;

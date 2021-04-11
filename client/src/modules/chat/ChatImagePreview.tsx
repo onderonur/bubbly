@@ -4,8 +4,7 @@ import BaseImage from 'modules/shared/BaseImage';
 import AbsoluteFill from 'modules/shared/AbsoluteFill';
 import CloseIcon from '@material-ui/icons/Close';
 import ChatHeader from './ChatHeader';
-import { useFormikContext } from 'formik';
-import { ChatFormValues } from './ChatTypes';
+import { useChatFormikContext } from './ChatFormik';
 
 interface ChatImagePreviewProps {
   name: string;
@@ -15,7 +14,7 @@ const ChatImagePreview = React.memo<ChatImagePreviewProps>(
   function ChatImagePreview({ name }) {
     const theme = useTheme();
 
-    const { values, setFieldValue } = useFormikContext<ChatFormValues>();
+    const { values, setFieldValue } = useChatFormikContext();
     const { file } = values;
 
     const imageUrl = useMemo(() => {
@@ -55,7 +54,7 @@ const ChatImagePreview = React.memo<ChatImagePreviewProps>(
         </AbsoluteFill>
       </Grow>
     );
-  }
+  },
 );
 
 export default ChatImagePreview;

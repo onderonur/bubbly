@@ -22,7 +22,7 @@ const BaseTextField = React.memo<BaseTextFieldProps>(function BaseTextField({
       onChange?.(e);
       field.onChange(e);
     },
-    [field, onChange]
+    [field, onChange],
   );
 
   return (

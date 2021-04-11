@@ -13,7 +13,7 @@ interface AppDrawerContextValue {
 }
 
 const AppDrawerContext = React.createContext<AppDrawerContextValue>(
-  {} as AppDrawerContextValue
+  {} as AppDrawerContextValue,
 );
 
 export function useAppDrawer() {

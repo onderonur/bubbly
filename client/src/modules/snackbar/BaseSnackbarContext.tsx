@@ -10,14 +10,14 @@ export function useSnack() {
     (message: React.ReactNode) => {
       enqueueSnackbar(message, { variant: 'success' });
     },
-    [enqueueSnackbar]
+    [enqueueSnackbar],
   );
 
   const error = useCallback(
     (message: React.ReactNode) => {
       enqueueSnackbar(message, { variant: 'error' });
     },
-    [enqueueSnackbar]
+    [enqueueSnackbar],
   );
 
   return { success, error };

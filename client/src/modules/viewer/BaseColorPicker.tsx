@@ -30,7 +30,7 @@ const BaseColorPicker = React.memo<BaseColorPickerProps>(
       (colorResult) => {
         setFieldValue(props.name, colorResult.hex);
       },
-      [props.name, setFieldValue]
+      [props.name, setFieldValue],
     );
 
     return (
@@ -47,7 +47,7 @@ const BaseColorPicker = React.memo<BaseColorPickerProps>(
         {hasError && <FormHelperText>{error}</FormHelperText>}
       </FormControl>
     );
-  }
+  },
 );
 
 export default BaseColorPicker;

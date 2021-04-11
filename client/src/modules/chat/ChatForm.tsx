@@ -11,7 +11,7 @@ import Stack from 'modules/shared/Stack';
 import EmojiPicker from './EmojiPicker';
 import { SubmitIconButton } from 'modules/shared/SubmitButton';
 import useWindowFocus from './useWindowFocus';
-import { ChatFormValues } from './ChatTypes';
+import { ChatFormValues } from './ChatFormik';
 
 const enterKeyCode = 13;
 
@@ -53,7 +53,7 @@ const ChatForm = React.memo<ChatFormProps>(function ChatForm({ roomId }) {
 
   var prevIsTyping = usePrevious(isTyping);
 
-  const typingTimerRef = useRef<number>();
+  const typingTimerRef = useRef<NodeJS.Timeout>();
 
   const handleTyping = useCallback(() => {
     const typingTimer = typingTimerRef.current;
@@ -66,9 +66,11 @@ const ChatForm = React.memo<ChatFormProps>(function ChatForm({ roomId }) {
     }, 1000);
   }, []);
 
-  const { submitForm, isSubmitting, values } = useFormikContext<
-    ChatFormValues
-  >();
+  const {
+    submitForm,
+    isSubmitting,
+    values,
+  } = useFormikContext<ChatFormValues>();
 
   useEffect(() => {
     if (!isSubmitting) {
@@ -97,7 +99,7 @@ const ChatForm = React.memo<ChatFormProps>(function ChatForm({ roomId }) {
         setIsTyping(false);
       }
     },
-    [submitForm]
+    [submitForm],
   );
 
   return (

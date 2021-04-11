@@ -1,3 +1,5 @@
+import { SocketUser } from './SocketUser';
+
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
@@ -10,26 +12,11 @@ declare global {
 
 export type ID = string;
 
-export interface SocketUser {
-  id: ID;
-  username: string;
-  socketIds: ID[];
-  color: string;
-}
-
 export type Maybe<T> = T | null | undefined;
-
-export interface ChatMessage {
-  id: ID;
-  author: SocketUser;
-  body: Maybe<string>;
-  timestamp: number;
-  file: Maybe<Buffer>;
-}
 
 declare global {
   namespace SocketIO {
-    export interface Socket {
+    export class Socket {
       user: SocketUser;
     }
   }

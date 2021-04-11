@@ -15,12 +15,12 @@ const TypingUsers = React.memo(function TypingUsers() {
           break;
         case 'finished':
           setTypingUsers((current) =>
-            current.filter((typingUser) => typingUser.id !== user.id)
+            current.filter((typingUser) => typingUser.id !== user.id),
           );
           break;
       }
     },
-    []
+    [],
   );
 
   useSocketListener('started typing', handleStartedTyping('started'));

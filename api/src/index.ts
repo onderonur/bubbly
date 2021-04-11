@@ -1,28 +1,19 @@
 import 'dotenv/config';
 import express from 'express';
 import { createServer } from 'http';
-import socketIo from 'socket.io';
 import { nanoid } from 'nanoid';
 import path from 'path';
-import { ID, SocketUser, ChatMessage, Maybe, JwtTokenPayload } from './types';
-import {
-  IS_DEV,
-  getRoomUsers,
-  trimSpaces,
-  isImageFile,
-  createNewUser,
-  isUserAlreadyInRoom,
-  getSocketRoomIds,
-  handleUserLeavingTheRoom,
-  getUserRoomIds,
-  convertMBToByte,
-} from './utils';
+import { ID, Maybe, JwtTokenPayload } from './types';
+import { IS_DEV, trimSpaces, convertMBToByte } from './utils';
 import notifications, { notify } from './notifications';
 import jwt from 'jsonwebtoken';
 import helmet from 'helmet';
 import router from './routes';
 import { errorHandler } from './middlewares';
 import cors from 'cors';
+import { SocketUser } from './SocketUser';
+import { CustomSocketIoServer } from './CustomSocketIoServer';
+import { ChatMessage } from './ChatMessage';
 
 const { JWT_TOKEN_SECRET } = process.env;
 
@@ -45,7 +36,7 @@ app.use(
         upgradeInsecureRequests: [],
       },
     },
-  })
+  }),
 );
 
 // Because we don't use proxy requests in development mode web client,
@@ -58,15 +49,21 @@ app.use('/api', router);
 
 const maxMessageSizeInMB = 2;
 
-const http = createServer(app);
-const io = socketIo(http, {
+const httpServer = createServer(app);
+const io = new CustomSocketIoServer(httpServer, {
   path: '/socket-io',
   // Max size for a message
   // TODO: We need a way to handle exceptions
   // those caused by this option on the client side.
   maxHttpBufferSize: convertMBToByte(maxMessageSizeInMB),
+  cors: IS_DEV
+    ? {
+        origin: 'http://localhost:3000',
+      }
+    : undefined,
 });
 
+// To statically serve SPA client
 if (!IS_DEV) {
   const relativeBuildPath = '../../client/build';
   const buildPath = path.join(__dirname, relativeBuildPath);
@@ -79,34 +76,27 @@ if (!IS_DEV) {
 
 app.use(errorHandler);
 
-// TODO: May have some way to delete users from this map.
-// If we delete a user when there are no connected sockets
-// for them, it will change their user info when they hit
-// "refresh" on the browser, or if they are using only one
-// browser tab and they get reconnected.
-const appUsers = new Map<ID, SocketUser>();
-
 io.use((socket, next) => {
   const { token } = socket.handshake.query;
   let user: Maybe<SocketUser> = null;
   try {
-    if (token) {
+    if (typeof token === 'string') {
       const verified = jwt.verify(token, JWT_TOKEN_SECRET) as JwtTokenPayload;
       const { id } = verified;
-      user = appUsers.get(id);
+      user = io.getSocketUserById(id);
       if (!user) {
         throw Error('User not found');
       } else {
-        user.socketIds.push(socket.id);
+        user.addSocket(socket);
       }
     } else {
       throw Error('Token not found');
     }
   } catch (err) {
-    user = createNewUser(socket);
+    user = new SocketUser(socket);
   }
 
-  appUsers.set(user.id, user);
+  io.addSocketUser(user);
 
   // eslint-disable-next-line no-param-reassign
   socket.user = user;
@@ -127,32 +117,25 @@ io.on('connection', (socket) => {
     callback(roomId);
   });
 
-  socket.on('join room', (roomId, callback) => {
-    socket.join(roomId, (err) => {
-      if (!err) {
-        const roomUsers = getRoomUsers(io, appUsers, roomId, socket);
-        // Send current room users to sender
-        callback(roomUsers);
-        if (!isUserAlreadyInRoom(io, roomId, socket)) {
-          // Send the newly joined user to other room users (except sender)
-          socket.to(roomId).emit('joined to room', socket.user);
-          notify({
-            socket,
-            roomId,
-            notification: notifications.joinedToRoom(socket.user),
-          });
-        }
-      }
-    });
+  socket.on('join room', async (roomId, callback) => {
+    await socket.join(roomId);
+    const roomUsers = await io.getRoomUsers(roomId, socket);
+    // Send current room users to sender
+    callback(roomUsers);
+    if (!(await io.isUserAlreadyInRoom(roomId, socket))) {
+      // Send the newly joined user to other room users (except sender)
+      socket.to(roomId).emit('joined to room', socket.user);
+      notify({
+        socket,
+        roomId,
+        notification: notifications.joinedToRoom(socket.user),
+      });
+    }
   });
 
-  socket.on('leave room', (roomId) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    socket.leave(roomId, (err: any) => {
-      if (!err) {
-        handleUserLeavingTheRoom(io, socket, roomId);
-      }
-    });
+  socket.on('leave room', async (roomId) => {
+    await socket.leave(roomId);
+    await io.handleUserLeavingTheRoom(socket, roomId);
   });
 
   socket.on(
@@ -160,36 +143,16 @@ io.on('connection', (socket) => {
     async (
       roomId,
       { body, file }: { body: Maybe<string>; file: Maybe<Buffer | string> },
-      callback
+      callback,
     ) => {
-      const trimmedBody = body ? trimSpaces(body) : null;
-      if (!trimmedBody && !file) {
-        return;
-      }
-      // "file" can be a Buffer or base64 string.
-      // base64 string is used for react-native app here.
-      let inputFile = null;
-      if (file instanceof Buffer) {
-        inputFile = file;
-      } else if (typeof file === 'string') {
-        inputFile = Buffer.from(file, 'base64');
-      }
-      if (inputFile) {
-        const isImage = await isImageFile(inputFile);
-        if (!isImage) {
-          return;
-        }
-      }
-      const newMessage: ChatMessage = {
-        id: nanoid(),
-        author: socket.user,
-        body: trimmedBody,
-        timestamp: Date.now(),
-        file: inputFile,
-      };
+      const newMessage = await ChatMessage.createChatMessage({
+        socket,
+        body,
+        file,
+      });
       socket.to(roomId).emit('chat message', newMessage);
       callback(newMessage);
-    }
+    },
   );
 
   // TODO: May add this feature later.
@@ -208,7 +171,7 @@ io.on('connection', (socket) => {
   socket.on(
     'edit user',
     (input: Pick<SocketUser, 'username' | 'color'>, callback) => {
-      const userRoomIds = getUserRoomIds(io, socket);
+      const userRoomIds = io.getUserRoomIds(socket);
       const socketUser = socket.user;
       const newUsername = trimSpaces(input.username);
       if (newUsername) {
@@ -221,7 +184,7 @@ io.on('connection', (socket) => {
               roomId,
               notification: notifications.editedUsername(
                 oldUsername,
-                newUsername
+                newUsername,
               ),
             });
           });
@@ -239,19 +202,19 @@ io.on('connection', (socket) => {
               roomId,
               notification: notifications.editedColor(
                 socketUser.username,
-                newColor
+                newColor,
               ),
             });
           });
         }
       }
 
-      appUsers.set(socketUser.id, socketUser);
+      io.updateSocketUser(socketUser);
       callback(socketUser);
       userRoomIds.forEach((roomId) => {
         io.to(roomId).emit('edit user', socketUser);
       });
-    }
+    },
   );
 
   socket.on('disconnecting', () => {
@@ -259,25 +222,25 @@ io.on('connection', (socket) => {
     // So, if we want to get the rooms those the user joined,
     // we need to do this in "disconnecting" event.
     // https://stackoverflow.com/a/52713972/10876256
-    const roomIds = getSocketRoomIds(socket);
+    const roomIds = io.getSocketRoomIds(socket);
 
     roomIds.forEach((roomId) => {
-      handleUserLeavingTheRoom(io, socket, roomId);
+      io.handleUserLeavingTheRoom(socket, roomId);
     });
 
     // Remove the leaving socket from users socketId list.
     // eslint-disable-next-line no-param-reassign
-    socket.user.socketIds = socket.user.socketIds.filter(
-      (socketId) => socketId !== socket.id
-    );
+    socket.user.removeSocket(socket);
 
-    appUsers.set(socket.user.id, socket.user);
+    // TODO: Bunu bi kontrol etmek lazım eskisi alttaki gibiydi
+    // io.socketUsers.set(socket.user.id, socket.user);
+    io.updateSocketUser(socket.user);
   });
 });
 
 const port = process.env.PORT || 8080;
 
-http.listen(port, () => {
+httpServer.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log(`Listening on http://localhost:${port}`);
 });

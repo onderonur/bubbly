@@ -55,7 +55,7 @@ const ChatItemListItem = React.memo<ChatItemListItemProps>(
         <ChatNotifier notification={notification} />
       </ChatItemListItemContainer>
     );
-  }
+  },
 );
 
 export default ChatItemListItem;

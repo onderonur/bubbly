@@ -22,7 +22,7 @@ const FullScreenImageViewer = React.memo<FullScreenImageViewerProps>(
         e.stopPropagation();
         saveAs(src);
       },
-      [src]
+      [src],
     );
 
     return (
@@ -46,7 +46,7 @@ const FullScreenImageViewer = React.memo<FullScreenImageViewerProps>(
         </BaseDialogContent>
       </BaseDialog>
     );
-  }
+  },
 );
 
 export default FullScreenImageViewer;

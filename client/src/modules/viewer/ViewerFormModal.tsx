@@ -16,18 +16,15 @@ import BaseButton from 'modules/shared/BaseButton';
 import { OnSubmitFn } from 'modules/shared/SharedTypes';
 import { useViewer } from './ViewerContext';
 
-interface ViewerFormValues {
-  username: string;
-  color: string;
-}
-
-const validationSchema = Yup.object().shape<ViewerFormValues>({
+const validationSchema = Yup.object({
   username: Yup.string()
     .label('Username')
     .required()
     .transform(removeSpaceAround),
   color: Yup.string().label('Color').required(),
 });
+
+type ViewerFormValues = Yup.TypeOf<typeof validationSchema>;
 
 const ViewerFormModal = React.memo(function ViewerFormModal() {
   const { viewer, isEditing, finishEditing } = useViewer();
@@ -37,7 +34,7 @@ const ViewerFormModal = React.memo(function ViewerFormModal() {
       username: viewer?.username || '',
       color: viewer?.color || '#000',
     }),
-    [viewer]
+    [viewer],
   );
 
   const io = useSocketIo();
@@ -52,7 +49,7 @@ const ViewerFormModal = React.memo(function ViewerFormModal() {
         finishEditing();
       });
     },
-    [finishEditing, io, viewer]
+    [finishEditing, io, viewer],
   );
 
   return (

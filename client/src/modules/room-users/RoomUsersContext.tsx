@@ -15,7 +15,7 @@ interface RoomUsersContextValue {
 }
 
 const RoomUsersContext = React.createContext<RoomUsersContextValue>(
-  {} as RoomUsersContextValue
+  {} as RoomUsersContextValue,
 );
 
 export function useRoomUsers() {
@@ -40,7 +40,7 @@ function RoomUsersProvider({ roomId, children }: RoomUsersProviderProps) {
     setRoomUsers(
       produce((draft: SocketUser[]) => {
         draft.push(roomUser);
-      })
+      }),
     );
   }, []);
 
@@ -48,7 +48,7 @@ function RoomUsersProvider({ roomId, children }: RoomUsersProviderProps) {
 
   const handleLeftTheRoom = useCallback((roomUser: SocketUser) => {
     setRoomUsers((current) =>
-      current.filter((user) => user.id !== roomUser.id)
+      current.filter((user) => user.id !== roomUser.id),
     );
   }, []);
 
@@ -69,7 +69,7 @@ function RoomUsersProvider({ roomId, children }: RoomUsersProviderProps) {
 
   const contextValue = useMemo<RoomUsersContextValue>(
     () => ({ roomUsers, setRoomUsers }),
-    [roomUsers]
+    [roomUsers],
   );
 
   return (

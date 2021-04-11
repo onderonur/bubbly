@@ -10,7 +10,7 @@ const ShareButtonTooltip = React.memo<ShareButtonTooltipProps>(
   function ShareButtonTooltip({ name, children }) {
     const title = `Share on ${name}`;
     return <Tooltip title={title}>{children}</Tooltip>;
-  }
+  },
 );
 
 export default ShareButtonTooltip;
