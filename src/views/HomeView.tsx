@@ -51,7 +51,7 @@ const HomeView = React.memo(function Home() {
 
   return (
     <>
-      <BaseSeo title="Home" />
+      <BaseSeo title={process.env.NEXT_PUBLIC_APP_TITLE} titleTemplate="%s" />
       <Box
         flex={1}
         display="flex"
