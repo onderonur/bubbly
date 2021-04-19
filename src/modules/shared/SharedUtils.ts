@@ -26,7 +26,8 @@ async function handleResponse(response: Response) {
 }
 
 export const api = {
-  get: (url: string) => fetch(`${API_URL}${url}`).then(handleResponse),
+  get: <T>(url: string): Promise<T> =>
+    fetch(`${API_URL}${url}`).then(handleResponse),
 };
 
 export const DATE_TIME_FORMATS = {

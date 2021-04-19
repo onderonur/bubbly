@@ -5,12 +5,12 @@ import SettingsProvider, {
 import BaseSnackbarProvider from '@src/modules/snackbar/BaseSnackbarContext';
 import SocketIoProvider from '@src/modules/socket-io/SocketIoContext';
 import BaseThemeProvider from '@src/modules/theme/BaseThemeContext';
-import TopicsProvider from '@src/modules/topics/TopicsContext';
+import TopicsProvider, { fetchTopics } from '@src/modules/topics/TopicsContext';
 import ViewerProvider from '@src/modules/viewer/ViewerContext';
 import App, { AppProps, AppContext } from 'next/app';
 import Head from 'next/head';
 import { useEffect } from 'react';
-import { Maybe } from '@shared/SharedTypes';
+import { Maybe, Topic } from '@shared/SharedTypes';
 import { getSettingsFromCookie } from '@src/modules/settings/SettingsUtils';
 import NProgress from 'nprogress';
 import { Router } from 'next/router';
@@ -24,9 +24,10 @@ Router.events.on('routeChangeError', () => NProgress.done());
 
 type MyAppProps = AppProps & {
   settings: Maybe<SettingsOptions>;
+  topics: Topic[];
 };
 
-function MyApp({ Component, pageProps, settings }: MyAppProps) {
+function MyApp({ Component, pageProps, settings, topics }: MyAppProps) {
   useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
@@ -46,7 +47,7 @@ function MyApp({ Component, pageProps, settings }: MyAppProps) {
         <BaseThemeProvider>
           <BaseSnackbarProvider>
             <SocketIoProvider>
-              <TopicsProvider>
+              <TopicsProvider initialData={topics}>
                 <ViewerProvider>
                   <AppLayout>
                     <Component {...pageProps} />
@@ -64,7 +65,8 @@ function MyApp({ Component, pageProps, settings }: MyAppProps) {
 MyApp.getInitialProps = async (appContext: AppContext) => {
   const appProps = await App.getInitialProps(appContext);
   const settings = getSettingsFromCookie(appContext.ctx);
-  return { ...appProps, settings };
+  const topics = await fetchTopics();
+  return { ...appProps, settings, topics };
 };
 
 export default MyApp;

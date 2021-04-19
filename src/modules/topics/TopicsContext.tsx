@@ -17,10 +17,19 @@ export function useTopics() {
   return value;
 }
 
-type TopicsProviderProps = React.PropsWithChildren<{}>;
+export async function fetchTopics() {
+  const topics = await api.get<Topic[]>('/api/topics');
+  return topics;
+}
 
-function TopicsProvider({ children }: TopicsProviderProps) {
-  const { data, error } = useSwr<Topic[]>('/api/topics', api.get);
+type TopicsProviderProps = React.PropsWithChildren<{
+  initialData: Topic[];
+}>;
+
+function TopicsProvider({ children, initialData }: TopicsProviderProps) {
+  const { data, error } = useSwr<Topic[]>('/api/topics', api.get, {
+    initialData,
+  });
 
   if (error) {
     return <div>{error.message}</div>;

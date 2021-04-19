@@ -25,6 +25,7 @@ module.exports = {
     'prettier/prettier': 'warn',
     'arrow-body-style': 'off',
     'no-unused-vars': 'off',
+    'object-shorthand': 'warn',
     'no-undef': 'off',
     '@typescript-eslint/no-unused-vars': 'warn',
     'no-var': 'warn',
