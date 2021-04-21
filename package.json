@@ -12,7 +12,7 @@
     "start": "node -r ./tsconfig-paths-bootstrap.js dist/server/index.js",
     "prepare": "husky install",
     "typecheck": "tsc --noEmit",
-    "lint:fix": "eslint --fix --max-warnings 0 --ext .js,.jsx,.ts,.tsx .",
+    "lint:fix": "eslint --fix --max-warnings 0 ./**/*.{ts,tsx,js,jsx}",
     "clean": "rimraf .next dist"
   },
   "dependencies": {
@@ -79,7 +79,7 @@
     "typescript": "^4.2.4"
   },
   "lint-staged": {
-    "(src|pages)/*.{js,jsx,ts,tsx}": [
+    "*.{js,jsx,ts,tsx}": [
       "npm run lint:fix"
     ]
   }

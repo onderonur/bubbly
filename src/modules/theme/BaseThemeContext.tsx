@@ -27,7 +27,7 @@ function BaseThemeProvider({ children }: BaseThemeProviderProps) {
       <StylesProvider injectFirst>
         <MuiThemeProvider theme={theme}>
           <ThemeProvider theme={theme}>
-            <CssBaseline />
+            <CssBaseline enableColorScheme />
             {children}
           </ThemeProvider>
         </MuiThemeProvider>
